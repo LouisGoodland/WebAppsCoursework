@@ -13,9 +13,6 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
-        $test = new Post;
-        $test->account_id = 1;
-        $test->content = "first post ever!";
-        $test->save();
+        $randomPosts = Post::factory()->count(20)->create();
     }
 }

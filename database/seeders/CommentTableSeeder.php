@@ -13,9 +13,6 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        $test = new Comment;
-        $test->account_id = 1;
-        $test->post_id = 1;
-        $test->content = "this is the first comment!";
+        $randomComments = Comment::factory()->count(30)->create();
     }
 }

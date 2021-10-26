@@ -13,9 +13,7 @@ class AccountTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = new Account;
-        $user->username = "jeff";
-        $user->password = "123";
-        $user->save();
+        //makes 10 random users
+        $users = Account::factory()->count(10)->create();
     }
 }

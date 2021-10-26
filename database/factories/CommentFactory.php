@@ -3,16 +3,19 @@
 namespace Database\Factories;
 
 use App\Models\Account;
+use App\Models\Post;
+use App\Models\Comment;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AccountTableFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Account::class;
+    protected $model = Comment::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +25,9 @@ class AccountTableFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'post_id' => Post::all()->random()->id,
+            'account_id' => Account::all()->random()->id,
+            'content' => $this->faker->realText(),
         ];
     }
 }

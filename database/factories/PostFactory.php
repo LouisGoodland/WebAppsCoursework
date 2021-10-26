@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Account;
 use App\Models\Post;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PostTableFactory extends Factory
+class PostFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -22,7 +24,8 @@ class PostTableFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'account_id' => Account::all()->random()->id,
+            'content' => $this->faker->realText(),
         ];
     }
 }
