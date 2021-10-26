@@ -17,6 +17,11 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            //foreign key to linked account
+            $table->unsignedBigInteger('account_id');
+            $table->foreign('account_id')->references('id')->on('accounts')
+                ->onDelete('cascade')->onUpdate('cascade');
+
             //post content
             $table->string('content');
             $table->integer('views')->default(0);

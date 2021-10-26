@@ -29,7 +29,7 @@ class CreateAccountsTable extends Migration
             //phone number
             //email address
 
-
+            
 
 
         });
