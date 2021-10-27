@@ -18,4 +18,9 @@ class Account extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function friendships()
+    {
+        return $this->hasMany(Friendship::class, 'account_id_sender');
+    }
 }
