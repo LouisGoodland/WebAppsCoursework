@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Account;
 use App\Models\Friendship;
+use App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FriendshipFactory extends Factory
