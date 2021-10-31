@@ -9,8 +9,8 @@ class Comment extends Model
 {
     use HasFactory;
 
-    public function comments()
+    public function notifications()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Notification::class, 'notifiable');
     }
 }

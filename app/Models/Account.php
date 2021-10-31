@@ -23,4 +23,9 @@ class Account extends Model
     {
         return $this->hasMany(Friendship::class, 'account_id_sender');
     }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
 }
