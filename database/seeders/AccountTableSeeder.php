@@ -14,6 +14,6 @@ class AccountTableSeeder extends Seeder
     public function run()
     {
         //makes 10 random users
-        $users = Account::factory()->count(10)->create();
+        $users = Account::factory()->count(3)->create();
     }
 }

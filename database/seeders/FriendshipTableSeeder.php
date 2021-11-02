@@ -13,7 +13,11 @@ class FriendshipTableSeeder extends Seeder
      */
     public function run()
     {
-        $friendships = Friendship::factory()->count(10)->create();
-        //$friendships = Friendship::get()->where('account_id_sender', '>', 7);
+        $friendLimit = 9;
+        $count = 0;
+        while($count < $friendLimit){
+            $friendship = Friendship::factory()->create();
+            $count = $count + 1;
+        }
     }
 }

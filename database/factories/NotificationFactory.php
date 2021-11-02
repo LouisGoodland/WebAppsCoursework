@@ -34,6 +34,7 @@ class NotificationFactory extends Factory
         ];
         $notable = $this->faker->randomElement($noteableList);
 
+        /*
         if($notable == Comment::class){
             $notableId = Comment::all()->random()->id;
         } elseif($notable == Friendship::class){
@@ -41,9 +42,10 @@ class NotificationFactory extends Factory
         } else {
             $notableId = Post::all()->random()->id;
         }
+        */
 
         return [
-            'account_id' => Account::all()->random()->id,
+            'account_id' => 'overriden',
             'notifiable_id' => $notableId,
             'notifiable_type' => $notable,
             'notification_text' => $this->faker->realText(),
