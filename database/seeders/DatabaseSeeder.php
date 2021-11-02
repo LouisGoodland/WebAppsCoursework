@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AccountTableSeeder::class);
         $this->call(FriendshipTableSeeder::class);
         $this->call(PostTableSeeder::class);
-        //$this->call(CommentTableSeeder::class);
+        $this->call(CommentTableSeeder::class);
         
         //$this->call(NotificationTableSeeder::class);
         // \App\Models\User::factory(10)->create();

@@ -27,28 +27,20 @@ class NotificationFactory extends Factory
      */
     public function definition()
     {
-        $noteableList = [
-            Comment::class,
-            Friendship::class,
-            Post::class,
-        ];
-        $notable = $this->faker->randomElement($noteableList);
-
-        /*
-        if($notable == Comment::class){
-            $notableId = Comment::all()->random()->id;
-        } elseif($notable == Friendship::class){
-            $notableId = Friendship::all()->random()->id;
-        } else {
-            $notableId = Post::all()->random()->id;
-        }
-        */
-
         return [
-            'account_id' => 'overriden',
-            'notifiable_id' => $notableId,
-            'notifiable_type' => $notable,
             'notification_text' => $this->faker->realText(),
         ];
+    }
+
+    public function createNotifications($notifiyingObject){
+        $accounts_to_notify = Friendship::all()
+        ->where('account_id_reciever', $notifiyingObject->account_id)->pluck('account_id_sender');
+
+        foreach($accounts_to_notify as $notified_account_id){
+            Notification::factory()->create([
+            'notifiable_id' => $notifiyingObject->id,
+            'notifiable_type' => get_class($notifiyingObject), 
+            'account_id' => $notified_account_id,]);
+        }
     }
 }
