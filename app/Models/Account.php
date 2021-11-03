@@ -9,23 +9,28 @@ class Account extends Model
 {
     use HasFactory;
 
+    //each account has multiple posts
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
 
+    //each account has multiple comments
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+    //each account has multiple friendships
+    //note, sender is used. means accounts can "follow" other accounts
     public function friendships()
     {
         return $this->hasMany(Friendship::class, 'account_id_sender');
     }
 
+    //each account has multiple notification
     public function notifications()
     {
-        return $this->morphMany(Notification::class, 'notifiable');
+        return $this->hasMany(Notification::class);
     }
 }

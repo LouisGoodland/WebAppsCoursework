@@ -14,6 +14,7 @@ class CreateNotificationsTable extends Migration
     public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
+            //default attributes
             $table->id();
             $table->timestamps();
 
@@ -22,9 +23,9 @@ class CreateNotificationsTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts')
                 ->onDelete('cascade')->onUpdate('cascade');
             
-            //foreign key to the notification type (needs to change)
+            //morph attributes for objects that can notify
             $table->morphs('notifiable');
-
+            //text of the notification
             $table->string('notification_text');
         });
     }

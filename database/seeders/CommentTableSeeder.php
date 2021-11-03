@@ -14,12 +14,16 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        $CommentLimit = 2;
-        $count = 0;
-        while($count < $CommentLimit){
-            $randomComments = Comment::factory()->create();
-            Notification::factory()->createNotifications($randomComments);
-            $count = $count + 1;
+        //Creates 2 comments
+        $amount_of_comments_to_produce = 2;
+        //While it still needs to make more comments
+        $production_count = 0;
+        while($production_count < $amount_of_comments_to_produce){
+            //Make a comment and it's notification
+            $produced_comment = Comment::factory()->create();
+            Notification::factory()->createNotifications($produced_comment);
+            //increase the amount produced count
+            $production_count = $production_count + 1;
         }
     }
 }

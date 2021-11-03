@@ -9,6 +9,7 @@ class Notification extends Model
 {
     use HasFactory;
 
+    //morphs to the type that caused the notification type
     public function notifiable()
     {
         return $this->morphTo();

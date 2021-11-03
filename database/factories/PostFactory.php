@@ -26,6 +26,7 @@ class PostFactory extends Factory
      */
     public function definition()
     {        
+        //Generates a random account and text for the post
         return [
             'account_id' => Account::all()->random()->id,
             'content' => $this->faker->realText(),

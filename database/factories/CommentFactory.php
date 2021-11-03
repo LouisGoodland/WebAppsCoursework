@@ -26,6 +26,7 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
+            //picks a random post, commented by a random user and with random text added
             'post_id' => Post::all()->random()->id,
             'account_id' => Account::all()->random()->id,
             'content' => $this->faker->realText(),

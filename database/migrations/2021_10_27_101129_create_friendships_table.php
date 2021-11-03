@@ -14,10 +14,10 @@ class CreateFriendshipsTable extends Migration
     public function up()
     {
         Schema::create('friendships', function (Blueprint $table) {
+            //default attributes
             $table->id();
             $table->timestamps();
             
-            //account ids of friendship
             //foreign key of account who initiated friendship
             $table->unsignedBigInteger('account_id_sender');
             $table->foreign('account_id_sender')->references('id')->on('accounts')

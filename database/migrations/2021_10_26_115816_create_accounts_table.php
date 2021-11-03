@@ -14,23 +14,18 @@ class CreateAccountsTable extends Migration
     public function up()
     {
         Schema::create('accounts', function (Blueprint $table) {
+            //creates the default attributes
             $table->id();
             $table->timestamps();
 
-            //Login Details
+            //Login details attributes
             $table->string('username', 50);
-            //Temporary for password
             $table->string('password');
 
-            //Personal Details
+            //Personal details attributes
             $table->string('first_name', 30)->nullable();
             $table->string('last_name', 30)->nullable();
             $table->date('date_of_birth')->nullable();
-            //phone number
-            //email address
-
-            
-
 
         });
     }

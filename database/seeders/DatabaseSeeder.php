@@ -13,9 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //Accounts must come first
         $this->call(AccountTableSeeder::class);
         $this->call(FriendshipTableSeeder::class);
         $this->call(PostTableSeeder::class);
+        //Comments must be made after posts
         $this->call(CommentTableSeeder::class);
     }
 }

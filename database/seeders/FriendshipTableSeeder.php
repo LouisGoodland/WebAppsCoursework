@@ -15,17 +15,28 @@ class FriendshipTableSeeder extends Seeder
      */
     public function run()
     {
+        //Gets a list of the maximum amount of possible friend combinations
         $maximum_possible_friends = count(Account::all()) * count(Account::all());
-        $friendLimit = 11;
-        $count = 0;
-        while($count < $friendLimit){
+        //Tries to create 11 friends
+        $amount_of_friends_to_produce = 11;
+        //whilst it has friends to produce
+        $production_count = 0;
+        while($production_count < $maximum_possible_friends){
+
+            //if the amount of friends doesn't pass the maximum possible friends
             if(count(Friendship::all())<$maximum_possible_friends){
+
+                //produce a friend and its notification
                 $friendship = Friendship::factory()->create();
                 Notification::factory()->createFriendNotification($friendship);
-                $count = $count + 1;
+                //increase the produced count
+                $production_count = $production_count + 1;
+
+            //if the max amount of friends has already been made
             } else {
+                //alert the user and continue counting (to not get stuck)
                 print_r("exceeded max friend count");
-                $count = $count + 1;
+                $production_count = $production_count + 1;
             }
         }
     }

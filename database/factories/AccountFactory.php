@@ -22,6 +22,7 @@ class AccountFactory extends Factory
     public function definition()
     {
         return [
+            //makes a fake user name and password
             'username' => $this->faker->userName(),
             'password' => $this->faker->password(),
         ];

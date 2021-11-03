@@ -13,7 +13,7 @@ class AccountTableSeeder extends Seeder
      */
     public function run()
     {
-        //makes 10 random users
+        //creates 3 random accounts
         $users = Account::factory()->count(3)->create();
     }
 }

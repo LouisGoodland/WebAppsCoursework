@@ -15,12 +15,16 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
-        $PostLimit = 2;
-        $count = 0;
-        while($count < $PostLimit){
+        //Creates two posts
+        $amount_of_posts_to_produce = 2;
+        //While it still needs to make more posts
+        $production_count = 0;
+        while($production_count < $amount_of_posts_to_produce){
+            //make a post and its notification
             $post = Post::factory()->create();
             Notification::factory()->createNotifications($post);
-            $count = $count + 1;
+            //increase the produced count
+            $production_count = $production_count + 1;
         }
     }
 }
