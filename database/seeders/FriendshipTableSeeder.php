@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 use App\Models\Friendship;
+use App\Models\Notification;
+use App\Models\Account;
 use Illuminate\Database\Seeder;
 
 class FriendshipTableSeeder extends Seeder
@@ -13,11 +15,18 @@ class FriendshipTableSeeder extends Seeder
      */
     public function run()
     {
-        $friendLimit = 9;
+        $maximum_possible_friends = count(Account::all()) * count(Account::all());
+        $friendLimit = 11;
         $count = 0;
         while($count < $friendLimit){
-            $friendship = Friendship::factory()->create();
-            $count = $count + 1;
+            if(count(Friendship::all())<$maximum_possible_friends){
+                $friendship = Friendship::factory()->create();
+                Notification::factory()->createFriendNotification($friendship);
+                $count = $count + 1;
+            } else {
+                print_r("exceeded max friend count");
+                $count = $count + 1;
+            }
         }
     }
 }

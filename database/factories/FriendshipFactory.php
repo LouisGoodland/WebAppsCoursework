@@ -24,6 +24,7 @@ class FriendshipFactory extends Factory
     {
         //Gets a list of all accounts that will be checked for friend requests
         $valid_friend_sender_list = Account::all();
+
         $found_valid_friend = false;
 
         //while it hasn't found a friend
@@ -44,7 +45,7 @@ class FriendshipFactory extends Factory
             if(count($valid_friend_reciever_list) > 0){
                 $friend_reciever_id = $this->faker->randomElement($valid_friend_reciever_list);
                 $found_valid_friend = true;
-            } 
+            }
         }
 
         //returns the valid friendship
