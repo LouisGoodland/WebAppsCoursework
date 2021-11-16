@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,30 +19,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Route::resource('accounts', AccountController::class);
+
+Route::get('/specialroute', [AccountController::class, 'index']);
+Route::get('/specialroute/{account}', [AccountController::class, 'show']);
+
+
+
 //This a route for the home page
 Route::get('/home/{name}', function($name){
     return view('home', ['name'=>$name]);
 });
 
-//This will be for the feed page
-Route::get('/feed/{name}', function($name){
-    return view('home', ['name'=>$name]);
-});
-
-//This will be for the notifications page
-Route::get('/feed/{name}', function($name){
-    return view('home', ['name'=>$name]);
-});
-
-//This will be for the account settings page 
-Route::get('/account/settings/{name}', function($name){
-    return view('home', ['name'=>$name]);
-});
-
-//This will be for the account posts page 
-Route::get('/account/posts/{name}', function($name){
-    return view('home', ['name'=>$name]);
-});
 
 //This is a route for the dashboard
 Route::get('/dashboard', function () {
