@@ -1,20 +1,31 @@
 @extends('layouts.posts')
 
 @section('title')
-    test
+    1 account
 @endsection
 
 @section('content')
-    <li>{{$account->username}}</li>
+    <li>Username: {{$account->username}}</li>
+
     @if($account->first_name!=null)
-        <li>{{$account->first_name}}</li>
+        <li>First name: {{$account->first_name}}</li>
     @else
-        <li>no first name</li>
+        <li>No First name</li>
     @endif
 
-    @foreach ($posts as $post)
-        <li>{{$post->content}}</a></li>
-    @endforeach
+    @if($account->last_name!=null)
+        <li>Last name: {{$account->last_name}}</li>
+    @else
+        <li>No Last name</li>
+    @endif
+    <li>Amount of posts: {{$posts->count()}}</li>
 
+    <br>
+    @foreach ($posts as $post)
+        <li><a href="/discover/{{$post->id}}">{{$post->id}}</a></li>
+        <li>{{$post->content}}</li>
+        <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
+        <br>
+    @endforeach
 
 @endsection

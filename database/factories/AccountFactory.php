@@ -25,7 +25,8 @@ class AccountFactory extends Factory
             //makes a fake user name and password
             'username' => $this->faker->userName(),
             'password' => $this->faker->password(),
-            'first_name' => $this->faker->name(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
         ];
     }
 }

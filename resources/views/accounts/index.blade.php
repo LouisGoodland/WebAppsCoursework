@@ -1,11 +1,11 @@
 @extends('layouts.posts')
 
 @section('title')
-    test
+    all accounts
 @endsection
 
 @section('content')
-    @foreach ($collection as $item)
-        <li><a href="/discover_accounts/{{$item->id}}">{{$item->username}}</a></li>
+    @foreach ($accounts as $account)
+        <li>Username: <a href="/discover_accounts/{{$account->id}}">{{$account->username}}</a></li>
     @endforeach
 @endsection

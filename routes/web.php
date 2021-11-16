@@ -23,6 +23,7 @@ Route::get('/discover_accounts/{account}', [AccountController::class, 'show']);
 
 //for looking at new posts
 Route::get('/discover', [PostController::class, 'index']);
+Route::get('/discover/{post}', [PostController::class, 'show']);
 
 //This will change (get rid of account, just have logged in details)
 //for looking at posts from accounts that the user follows

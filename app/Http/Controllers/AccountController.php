@@ -16,8 +16,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $test = Account::all();
-        return view('accounts.index', ['collection' => $test]);
+        $accounts = Account::all();
+        return view('accounts.index', ['accounts' => $accounts]);
     }
 
     /**

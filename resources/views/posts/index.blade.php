@@ -1,11 +1,14 @@
 @extends('layouts.posts')
 
 @section('title')
-    test
+    all posts
 @endsection
 
 @section('content')
-    @foreach ($collection as $item)
-        <li><a href="/specialroute/{{$item->id}}">{{$item->account_id}}</a></li>
+    @foreach ($posts as $post)
+        <li><a href="/discover/{{$post->id}}">{{$post->id}}</a></li>
+        <li>{{$post->content}}</li>
+        <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
+        <br>
     @endforeach
 @endsection
