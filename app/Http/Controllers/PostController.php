@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
-
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class AccountController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $test = Account::all();
-        return view('accounts.index', ['collection' => $test]);
+        $test = Post::all();
+        return view('posts.index', ['collection' => $test]);
     }
 
     /**
@@ -44,23 +42,21 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Account  $account
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $account = Account::findOrFail($id);
-        $posts_by_account = Post::where('account_id', $account->id)->get();
-        return view('accounts.show', ['account' => $account, 'posts' => $posts_by_account]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Account  $account
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Account $account)
+    public function edit(Post $post)
     {
         //
     }
@@ -69,10 +65,10 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Account  $account
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -80,10 +76,10 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Account  $account
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Account $account)
+    public function destroy(Post $post)
     {
         //
     }

@@ -6,6 +6,6 @@
 
 @section('content')
     @foreach ($collection as $item)
-        <li><a href="/discover_accounts/{{$item->id}}">{{$item->username}}</a></li>
+        <li><a href="/specialroute/{{$item->id}}">{{$item->account_id}}</a></li>
     @endforeach
 @endsection

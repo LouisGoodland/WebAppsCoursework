@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,23 +15,28 @@ use App\Http\Controllers\AccountController;
 |
 */
 
+
+//for looking at different users
+//This will be changed to only show accounts that the user logged in can't view
+Route::get('/discover_accounts', [AccountController::class, 'index']);
+Route::get('/discover_accounts/{account}', [AccountController::class, 'show']);
+
+//for looking at new posts
+Route::get('/discover', [PostController::class, 'index']);
+
+//This will change (get rid of account, just have logged in details)
+//for looking at posts from accounts that the user follows
+Route::get('/following/{account}', [PostController::class, 'index']);
+
+
+
+
+//default 
+
 //This is a route for the welcome page
 Route::get('/', function () {
     return view('welcome');
 });
-
-//Route::resource('accounts', AccountController::class);
-
-Route::get('/specialroute', [AccountController::class, 'index']);
-Route::get('/specialroute/{account}', [AccountController::class, 'show']);
-
-
-
-//This a route for the home page
-Route::get('/home/{name}', function($name){
-    return view('home', ['name'=>$name]);
-});
-
 
 //This is a route for the dashboard
 Route::get('/dashboard', function () {

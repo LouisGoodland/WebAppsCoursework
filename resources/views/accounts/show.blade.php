@@ -11,4 +11,10 @@
     @else
         <li>no first name</li>
     @endif
+
+    @foreach ($posts as $post)
+        <li>{{$post->content}}</a></li>
+    @endforeach
+
+
 @endsection
