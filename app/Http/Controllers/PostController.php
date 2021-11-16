@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Account;
+
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -45,9 +48,13 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $comments_on_post = Comment::where('post_id', $post->id)->get();
+        $accounts = Account::get();
+        return view('posts.show', ['post' => $post, 'comments' => $comments_on_post,
+                    'accounts' => $accounts]);
     }
 
     /**
