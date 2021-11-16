@@ -1,6 +1,6 @@
 @extends('layouts.posts')
 
-@section('title')
+@section('title')   
     all posts
 @endsection
 

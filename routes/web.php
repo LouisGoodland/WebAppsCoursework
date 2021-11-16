@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,9 @@ Route::get('/discover_accounts/{account}', [AccountController::class, 'show']);
 //for looking at new posts
 Route::get('/discover', [PostController::class, 'index']);
 Route::get('/discover/{post}', [PostController::class, 'show']);
+
+//Looking at notifications (all for now but should be simplified)
+Route::get('/notifications', [NotificationController::class, 'index']);
 
 //This will change (get rid of account, just have logged in details)
 //for looking at posts from accounts that the user follows
