@@ -6,6 +6,9 @@
 
 @section('content')
     <li>{{$account->username}}</li>
-    <li>{{$account->first_name}}</li>
-    <li>{{$account->last_name}}</li>
+    @if($account->first_name!=null)
+        <li>{{$account->first_name}}</li>
+    @else
+        <li>no first name</li>
+    @endif
 @endsection

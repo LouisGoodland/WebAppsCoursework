@@ -45,9 +45,9 @@ class AccountController extends Controller
      * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
-    public function show(Account $account)
+    public function show($id)
     {
-        $test = Account::findOrFail($account);
+        $test = Account::findOrFail($id);
         return view('accounts.show', ['account' => $test]);
     }
 
