@@ -17,14 +17,23 @@ use App\Http\Controllers\NotificationController;
 */
 
 
-//for looking at different users
+//These are pages for viewing lots of users
 //This will be changed to only show accounts that the user logged in can't view
 Route::get('/discover_accounts', [AccountController::class, 'index']);
 Route::get('/discover_accounts/{account}', [AccountController::class, 'show']);
 
+//Account login / creation
+//Route::get('/login')
+Route::get('/create_account', [AccountController::class, 'create']);
+Route::post('/create_account', [AccountController::class, 'store']);
+
 //for looking at new posts
 Route::get('/discover', [PostController::class, 'index']);
 Route::get('/discover/{post}', [PostController::class, 'show']);
+//creates a new post
+//Waiting for authentication to create the rest
+Route::get('/create_post', [PostController::class, 'create']);
+
 
 //Looking at notifications (all for now but should be simplified)
 Route::get('/notifications', [NotificationController::class, 'index']);
@@ -32,6 +41,8 @@ Route::get('/notifications', [NotificationController::class, 'index']);
 //This will change (get rid of account, just have logged in details)
 //for looking at posts from accounts that the user follows
 Route::get('/following/{account}', [PostController::class, 'index']);
+
+
 
 
 
