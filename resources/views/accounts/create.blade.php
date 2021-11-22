@@ -5,8 +5,10 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="{{ route('account.store') }}">
-    <p>username: <input type="text" name="username"></p>
-    <p>password: <input type="text" name="password"></p>
-    <input type="submit" value="create">
+    <form method="POST" action="/discover_accounts">
+        @csrf
+        <p>username: <input type="text" name="username"></p>
+        <p>password: <input type="text" name="password"></p>
+        <input type="submit" value="Submit">
+    </form>
 @endsection

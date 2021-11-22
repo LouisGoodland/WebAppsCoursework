@@ -38,7 +38,22 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedAccount = $request->validate([
+            'username' => 'required|max:255',
+            'password' => 'required|max:255',
+            'first_name' => 'max:255',
+            'last_name' => 'max:255',
+        ]);
+
+        $a = new Account;
+        $a->username = $validatedAccount['username'];
+        $a->password = $validatedAccount['password'];
+        //$a->first_name = $validatedAccount['first_name'];
+        //$a->last_name = $validatedAccount['last_name'];
+        $a->save();
+
+        session()->flash('message', 'made an account');
+        return redirect('/discover_accounts');
     }
 
     /**
