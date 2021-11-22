@@ -39,7 +39,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedAccount = $request->validate([
+            'content' => 'required',
+        ]);
+
+        $p = new Post;
+        $p->content = $validatedAccount['content'];
+
+        //will need to update to make it use the account that is logged in
+        $p->account_id = Account::all()->random()->id;
+
+        $p->save();
+
+        session()->flash('message', 'uploaded');
+        return redirect('/discover');
     }
 
     /**

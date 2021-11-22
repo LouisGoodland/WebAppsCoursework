@@ -9,6 +9,7 @@
         @csrf
         <p>username: <input type="text" name="username"></p>
         <p>password: <input type="text" name="password"></p>
+        <p>email address: <input type="text" name="email"></p>
         <input type="submit" value="Submit">
     </form>
 @endsection

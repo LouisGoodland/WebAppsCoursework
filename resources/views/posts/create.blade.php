@@ -5,5 +5,9 @@
 @endsection
 
 @section('content')
-    <p>Post content: <input type="text" name="content"></p>
+    <form method="POST" action="/discover">
+        @csrf
+        <p>Post content: <input type="text" name="content"></p>
+        <input type="submit" value="Submit">
+    </form>
 @endsection

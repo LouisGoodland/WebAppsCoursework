@@ -43,13 +43,18 @@ class AccountController extends Controller
             'password' => 'required|max:255',
             'first_name' => 'max:255',
             'last_name' => 'max:255',
+            'email' => 'required|email',
         ]);
 
         $a = new Account;
         $a->username = $validatedAccount['username'];
         $a->password = $validatedAccount['password'];
+        $a->email = $validatedAccount['email'];
         //$a->first_name = $validatedAccount['first_name'];
         //$a->last_name = $validatedAccount['last_name'];
+
+        //need to add some validation to make sure its unique
+
         $a->save();
 
         session()->flash('message', 'made an account');
