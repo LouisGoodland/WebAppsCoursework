@@ -72,4 +72,19 @@ class NotificationFactory extends Factory
         'notification_text' => "Notification for ".$friendRequest->account_id_reciever." 
         caused by: a friend request from ".$friendRequest->account_id_sender]);
     }
+
+    /*
+    A method that creates a notification for specifically a user post interaction
+    A different method was required due to notifying a different account.
+    */
+    public function createInteractionNotification($interaction){
+        //Only one notification created, assigns the attributes based on the friend request
+        Notification::factory()->create([
+        'notifiable_id' => $interaction->id,
+        'notifiable_type' => get_class($interaction), 
+        'account_id' => $interaction->post()->first()->account_id,
+        //Notification text encorperates all the assigned attributes into a message
+        'notification_text' => "Notification for ".$interaction->post()->first()->account_id." 
+        caused by: a ".$interaction->type. " from ".$interaction->account_id]);
+    }
 }

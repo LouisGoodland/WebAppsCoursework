@@ -15,9 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         //Accounts must come first
         $this->call(AccountTableSeeder::class);
+        //Below can come after accounts
         $this->call(FriendshipTableSeeder::class);
         $this->call(PostTableSeeder::class);
-        //Comments must be made after posts
+        //Comments and interactions must be made after posts
         $this->call(CommentTableSeeder::class);
+        $this->call(AccountPostInteractionSeeder::class);
     }
 }

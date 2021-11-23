@@ -20,6 +20,12 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    //a post has interactions
+    public function account_post_interactions()
+    {
+        return $this->hasMany(AccountPostInteraction::class);
+    }
+
     //a post potentially has multiple notifications
     public function notifications()
     {

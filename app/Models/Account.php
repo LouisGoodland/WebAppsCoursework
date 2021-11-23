@@ -33,4 +33,10 @@ class Account extends Model
     {
         return $this->hasMany(Notification::class);
     }
+
+    //an account has many interactions with a post
+    public function account_post_interactions()
+    {
+        return $this->hasMany(AccountPostInteraction::class);
+    }
 }
