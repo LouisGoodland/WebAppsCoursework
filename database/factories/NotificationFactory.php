@@ -53,10 +53,14 @@ class NotificationFactory extends Factory
             //The id of the account that will get notified
             'account_id' => $notified_account_id,
             //notification text, encorperates all the assigned attributes into a message
-            'notification_text' => "Notification for ".$notified_account_id." 
-            caused by: ".get_class($notifiyingObject). " from ".$notifiyingObject->account_id]);
+            'notification_text' => "Notification for ".
+            Account::where('id', $notified_account_id)->first()->username." 
+            caused by: ".get_class($notifiyingObject). " from ".
+            Account::where('id', $notifiyingObject->account_id)->first()->username]);
         }
     }
+    
+    
 
     /*
     A method that creates a notification for specifically a friend request
@@ -69,10 +73,13 @@ class NotificationFactory extends Factory
         'notifiable_type' => get_class($friendRequest), 
         'account_id' => $friendRequest->account_id_reciever,
         //Notification text encorperates all the assigned attributes into a message
-        'notification_text' => "Notification for ".$friendRequest->account_id_reciever." 
-        caused by: a friend request from ".$friendRequest->account_id_sender]);
+        'notification_text' => "Notification for ".
+        Account::where('id', $friendRequest->account_id_reciever)->first()->username." 
+        caused by: a friend request from ".Account::where('id', $friendRequest->account_id_sender)
+        ->first()->username]);
     }
 
+    
     /*
     A method that creates a notification for specifically a user post interaction
     A different method was required due to notifying a different account.
@@ -84,7 +91,9 @@ class NotificationFactory extends Factory
         'notifiable_type' => get_class($interaction), 
         'account_id' => $interaction->post()->first()->account_id,
         //Notification text encorperates all the assigned attributes into a message
-        'notification_text' => "Notification for ".$interaction->post()->first()->account_id." 
-        caused by: a ".$interaction->type. " from ".$interaction->account_id]);
+        'notification_text' => "Notification for ".
+        Account::where('id', $interaction->post()->first()->account_id)->first()->username." 
+        caused by: a ".$interaction->type. " from ".
+        Account::where('id', $interaction->account_id)->first()->username]);
     }
 }

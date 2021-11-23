@@ -23,7 +23,9 @@ class AccountPostInteractionSeeder extends Seeder
             //Make a comment and it's notification
             $produced_interaction = AccountPostInteraction::factory()->create();
             //adding the interaction to the post
-            $post = Post::where('account_id', $produced_interaction->account_id)->first();
+
+            //Produced interaction will have 
+            $post = Post::where('account_id', $produced_interaction->post()->first()->account_id)->first();
 
             if($produced_interaction->type=="like")
             {
