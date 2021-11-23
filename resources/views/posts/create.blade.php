@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="/discover">
+    <form method="POST" action={{ route('store.post') }}>
         @csrf
         <p>Post content: <input type="text" name="content"></p>
         <input type="submit" value="Submit">

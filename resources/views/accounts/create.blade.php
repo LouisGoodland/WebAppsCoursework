@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="/discover_accounts">
+    <form method="POST" action={{ route('discover.accounts') }}>
         @csrf
         <p>username: <input type="text" name="username"></p>
         <p>password: <input type="text" name="password"></p>
