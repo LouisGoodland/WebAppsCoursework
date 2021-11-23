@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Account;
+use App\Models\Notification;
 
 use Illuminate\Http\Request;
 
@@ -48,11 +49,35 @@ class PostController extends Controller
 
         //will need to update to make it use the account that is logged in
         $p->account_id = Account::all()->random()->id;
-
         $p->save();
+
+        //makes a notification for the post produced
+        Notification::factory()->createNotifications($p);
 
         session()->flash('message', 'uploaded');
         return redirect('/discover');
+    }
+
+
+
+    public function add_like($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->likes = $post->likes + 1;
+        $post->save();
+
+        return redirect()->route('specific.post', ['post' => $id]);
+    }
+
+
+
+    public function add_dislike($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->dislikes = $post->dislikes + 1;
+        $post->save();
+        
+        return redirect()->route('specific.post', ['post' => $id]);
     }
 
     /**
@@ -64,6 +89,10 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
+
+        $post->views = $post->views + 1;
+        $post->save();
+        
         $comments_on_post = Comment::where('post_id', $post->id)->get();
         //will be used to collect information about the users
         $accounts = Account::get();

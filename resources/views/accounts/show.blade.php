@@ -27,5 +27,6 @@
         <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
         <br>
     @endforeach
+    
 
 @endsection

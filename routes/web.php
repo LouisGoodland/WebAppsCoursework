@@ -19,30 +19,46 @@ use App\Http\Controllers\NotificationController;
 
 //These are pages for viewing lots of users
 //This will be changed to only show accounts that the user logged in can't view
-Route::get('/discover_accounts', [AccountController::class, 'index']);
-Route::get('/discover_accounts/{account}', [AccountController::class, 'show']);
+Route::get('/discover_accounts', [AccountController::class, 'index'])
+->name("discover.accounts");
+Route::get('/discover_accounts/{account}', [AccountController::class, 'show'])
+->name("specific.account");
 //Account login / creation
 //Route::get('/login')
-Route::get('/create_account', [AccountController::class, 'create']);
-Route::post('/discover_accounts', [AccountController::class, 'store']);
+Route::get('/create_account', [AccountController::class, 'create'])
+->name("create.account");
+Route::post('/discover_accounts', [AccountController::class, 'store'])
+->name("store.account");
 //Route::get('/edit_profile', [AccountController::class, 'edit'])
 
 
 //for looking at new posts
-Route::get('/discover', [PostController::class, 'index']);
-Route::get('/discover/{post}', [PostController::class, 'show']);
+Route::get('/discover', [PostController::class, 'index'])
+->name("discover.posts");
+Route::get('/discover/{post}', [PostController::class, 'show'])
+->name("specific.post");
+//adding a like to the specific post
+Route::post('/discover/{post}/adding_like', [PostController::class, 'add_like'])
+->name("post.add_like");
+Route::post('/discover/{post}/adding_dislike', [PostController::class, 'add_dislike'])
+->name("post.add_dislike");
+
 //creates a new post
 //Waiting for authentication to create the rest
-Route::get('/create_post', [PostController::class, 'create']);
-Route::post('/discover', [PostController::class, 'store']);
+Route::get('/create_post', [PostController::class, 'create'])
+->name("create.post");
+Route::post('/discover', [PostController::class, 'store'])
+->name("store.post");
+
+
+//Route::post('/discover/{post}', [PostController::class, 'add_like']);
+
 //This will change (get rid of account, just have logged in details)
 //for looking at posts from accounts that the user follows
-Route::get('/following/{account}', [PostController::class, 'index']);
-//Route::get('/edit_post/{post}', [PostController::class, 'edit']);
-//Route::delete('edit_post/{post}, [PostController::class, 'delete']);
 
 //Looking at notifications (all for now but should be simplified)
-Route::get('/notifications', [NotificationController::class, 'index']);
+Route::get('/notifications', [NotificationController::class, 'index'])
+->name("notifications");
 //Route::post('/discover_accounts/{accounts}')
 
 
