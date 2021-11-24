@@ -18,11 +18,15 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            //link to user login object
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
+
+            //$table->unsignedBigInteger('user_id');
+            //$table->foreign('user_id')->references('id')->on()
             //Login details attributes
             $table->string('username', 50)->unique();
-            $table->string('password');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
 
             //Personal details attributes
             $table->string('first_name', 30)->nullable();

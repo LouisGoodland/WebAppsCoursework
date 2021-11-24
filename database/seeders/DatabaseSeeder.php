@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //Accounts must come first
-        $this->call(AccountTableSeeder::class);
+        $this->call(UserTableSeeder::class);
+        //$this->call(AccountTableSeeder::class);
         //Below can come after accounts
         $this->call(FriendshipTableSeeder::class);
         $this->call(PostTableSeeder::class);

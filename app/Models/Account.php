@@ -9,6 +9,15 @@ class Account extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'username',
+        'user_id'
+    ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    
     //each account has multiple posts
     public function posts()
     {
