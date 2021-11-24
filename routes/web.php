@@ -20,7 +20,7 @@ use App\Http\Controllers\NotificationController;
 //These are pages for viewing lots of users
 //This will be changed to only show accounts that the user logged in can't view
 Route::get('/discover_accounts', [AccountController::class, 'index'])
-->name("discover.accounts");
+->name("discover.accounts")->middleware('auth');
 Route::get('/discover_accounts/{account}', [AccountController::class, 'show'])
 ->name("specific.account");
 //Account login / creation
