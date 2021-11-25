@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\FriendshipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,6 @@ use App\Http\Controllers\NotificationController;
 
 
 //These are pages for viewing lots of users
-//This will be changed to only show accounts that the user logged in can't view
 Route::get('/discover_accounts', [AccountController::class, 'index'])
 ->name("discover.accounts")->middleware('auth');
 Route::get('/discover_accounts/{account}', [AccountController::class, 'show'])
@@ -47,6 +47,7 @@ Route::post('/discover/{post}/adding_dislike', [PostController::class, 'add_disl
 //Waiting for authentication to create the rest
 Route::get('/create_post', [PostController::class, 'create'])
 ->name("create.post");
+//uploads a post
 Route::post('/discover', [PostController::class, 'store'])
 ->name("store.post");
 
@@ -59,6 +60,9 @@ Route::post('/discover', [PostController::class, 'store'])
 //Looking at notifications (all for now but should be simplified)
 Route::get('/notifications', [NotificationController::class, 'index'])
 ->name("notifications");
+
+Route::post('/discover_accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
+->name("add.friend");
 //Route::post('/discover_accounts/{accounts}')
 
 

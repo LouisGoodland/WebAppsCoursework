@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 
-        $users_to_produce = 3;
+        $users_to_produce = 6;
         //While it still needs to make more comments
         $production_count = 0;
         while($production_count < $users_to_produce){
@@ -29,7 +29,6 @@ class UserTableSeeder extends Seeder
             $a->user_id = $produced_user->id;
             $a->save();
             
-
             //increase the amount produced count
             $production_count = $production_count + 1;
         }

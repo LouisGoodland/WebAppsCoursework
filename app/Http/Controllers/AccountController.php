@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 
 use App\Models\Post;
+use App\Models\Friendship;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -16,8 +17,15 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::all();
-        return view('accounts.index', ['accounts' => $accounts, ]);
+        
+        //Gets a list of accounts that can't have a request sent to
+        $accounts_already_friends_with = Friendship::all()
+        ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
+
+        //gets a list of all users who aren't friends with the sender
+        $accounts = Account::all()->whereNotIn('id', $accounts_already_friends_with);
+
+        return view('accounts.index', ['accounts' => $accounts]);
     }
 
     /**
@@ -50,8 +58,6 @@ class AccountController extends Controller
         $a->username = $validatedAccount['username'];
         $a->password = $validatedAccount['password'];
         $a->email = $validatedAccount['email'];
-        //$a->first_name = $validatedAccount['first_name'];
-        //$a->last_name = $validatedAccount['last_name'];
 
         //need to add some validation to make sure its unique
 
@@ -70,8 +76,15 @@ class AccountController extends Controller
     public function show($id)
     {
         $account = Account::findOrFail($id);
+        
+        //used to determine if the logged in user is friends with the account
+        $is_friends_with_user = Friendship::all()
+        ->where('account_id_sender', auth()->user()->account->id)
+        ->where('account_id_reciever', $account->id)->count()>0;
+
         $posts_by_account = Post::where('account_id', $account->id)->get();
-        return view('accounts.show', ['account' => $account, 'posts' => $posts_by_account]);
+        return view('accounts.show', ['account' => $account, 'posts' => $posts_by_account,
+        'is_friends_with_user' => $is_friends_with_user]);
     }
 
     /**

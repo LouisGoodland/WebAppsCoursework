@@ -20,6 +20,13 @@
     @endif
     <li>Amount of posts: {{$posts->count()}}</li>
 
+    @if($is_friends_with_user == false)
+        <form method="POST" action={{ route('add.friend', ['account' => $account]) }}>
+            @csrf
+            <input type="submit" value="Add as friend">
+        </form>
+    @endif
+    
     
     <br>
     @foreach ($posts as $post)
