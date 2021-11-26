@@ -99,6 +99,22 @@ class AccountController extends Controller
         return view('accounts.edit');
     }
 
+    public function revealIfAdmin()
+    {
+        return view('accounts.not_an_admin');
+    }
+
+
+    /**
+     * function for making someone an admin
+     */
+
+    public function makeAdmin()
+    {
+        auth()->user()->account->is_admin = true;
+        return redirect(route('discover.accounts'));
+    }
+
     /**
      * Update the specified resource in storage.
      *

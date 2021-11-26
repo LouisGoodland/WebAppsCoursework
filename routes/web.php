@@ -65,8 +65,17 @@ Route::get('/notifications', [NotificationController::class, 'index'])
 Route::post('/discover_accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
 ->name("add.friend")->middleware('auth');
 Route::post('/discover_accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
-->name("delete.friend")->middleware('auth');
+->name("delete.friend");
 
+//routes for deciding if an admin
+Route::get('/not_an_admin', [AccountController::class, 'revealIfAdmin'])
+->name("admin.is_not_a")->middleware('auth');
+Route::post('/not_an_admin', [AccountController::class, 'makeAdmin'])
+->name("admin.make")->middleware('auth');
+
+//admin views
+Route::get('/admin/notifications',  [NotificationController::class, 'index'])
+->name("admin.notifications")->middleware('auth');
 
 
 

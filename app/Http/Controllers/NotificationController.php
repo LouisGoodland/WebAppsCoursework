@@ -14,10 +14,15 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $notifications = Notification::all()
-        ->where('account_id', auth()->user()->account->id);
-        
-        return view('notifications.index', ['notifications' => $notifications]);
+        if(auth()->user()->account->is_admin)
+        {
+            $notifications = Notification::all();
+            return view('notifications.index', ['notifications' => $notifications]);
+        }
+        else
+        {
+            return view("")
+        }
     }
 
     /**
@@ -49,7 +54,10 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        //
+        $notifications = Notification::all()
+        ->where('account_id', auth()->user()->account->id);
+        
+        return view('notifications.index', ['notifications' => $notifications]);
     }
 
     /**

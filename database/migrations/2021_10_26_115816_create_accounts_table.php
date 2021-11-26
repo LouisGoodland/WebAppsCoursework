@@ -23,15 +23,19 @@ class CreateAccountsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
 
-            //$table->unsignedBigInteger('user_id');
-            //$table->foreign('user_id')->references('id')->on()
-            //Login details attributes
+            //account important details
             $table->string('username', 50)->unique();
+            $table->boolean("is_admin")->default(false);
 
             //Personal details attributes
             $table->string('first_name', 30)->nullable();
             $table->string('last_name', 30)->nullable();
             $table->date('date_of_birth')->nullable();
+
+            //privacy details
+            $table->boolean("personal_details_private")->nullable()->default(true);
+            $table->boolean("activity_details_private")->nullable()->default(true);
+            $table->boolean("posts_private")->nullable()->default(false);
             
         });
     }
