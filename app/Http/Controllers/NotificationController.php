@@ -21,7 +21,7 @@ class NotificationController extends Controller
         }
         else
         {
-            return view("")
+            return redirect(route('admin.is_not_a'));
         }
     }
 

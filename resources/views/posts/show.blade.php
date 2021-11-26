@@ -24,6 +24,12 @@
         <li>{{$comment->content}}</li>
         <br>
     @endforeach
-    
+
+    @if (auth()->user()->account->is_admin)
+        <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+            @csrf
+            <input type="submit" value="Silence as admin!">
+        </form>
+    @endif
     <li><a href={{ route('discover.posts') }}>Back</a></li>
 @endsection

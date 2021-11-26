@@ -112,6 +112,7 @@ class AccountController extends Controller
     public function makeAdmin()
     {
         auth()->user()->account->is_admin = true;
+        auth()->user()->account->save();
         return redirect(route('discover.accounts'));
     }
 
@@ -150,6 +151,10 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        //
+        if(auth()->user()->account->is_admin)
+        {
+            $account->user->delete();
+        }
+        return redirect(route('discover.accounts'));
     }
 }

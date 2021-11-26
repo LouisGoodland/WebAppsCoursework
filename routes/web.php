@@ -73,11 +73,13 @@ Route::get('/not_an_admin', [AccountController::class, 'revealIfAdmin'])
 Route::post('/not_an_admin', [AccountController::class, 'makeAdmin'])
 ->name("admin.make")->middleware('auth');
 
-//admin views
+//admin to view all notifications
 Route::get('/admin/notifications',  [NotificationController::class, 'index'])
 ->name("admin.notifications")->middleware('auth');
 
-
+//admin ability to delete user
+Route::post('/discover_accounts/{account}', [AccountController::class, 'destroy'])
+->name("admin.delete.account")->middleware('auth');
 
 
 //default 

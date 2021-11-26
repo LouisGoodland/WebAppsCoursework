@@ -146,9 +146,24 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        //deletes the post if its the users post or they are an admin
         if(auth()->user()->account->id == $post->account_id)
         {
             $post->delete();
+        }
+        elseif(auth()->user()->account->is_admin)
+        {
+            
+            //produce an additional notification for the user
+            $n = new Notification;
+            $n->notifiable_id = $post->id;
+            $n->notifiable_type = get_class($post);
+            $n->account_id = $post->account_id;
+            $n->notification_text = "An Admin Deleted your post:".$post->id;
+            $n->save();
+
+            $post->delete();
+            
         }
         return redirect(route('discover.posts'));
     }
