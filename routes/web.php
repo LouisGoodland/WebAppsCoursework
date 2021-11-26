@@ -22,29 +22,31 @@ use App\Http\Controllers\FriendshipController;
 Route::get('/discover_accounts', [AccountController::class, 'index'])
 ->name("discover.accounts")->middleware('auth');
 Route::get('/discover_accounts/{account}', [AccountController::class, 'show'])
-->name("specific.account");
-//Account login / creation
-//Route::get('/login')
-Route::get('/create_account', [AccountController::class, 'create'])
-->name("create.account");
-Route::post('/discover_accounts', [AccountController::class, 'store'])
-->name("store.account");
-//Route::get('/edit_profile', [AccountController::class, 'edit'])
+->name("specific.account")->middleware('auth');
+
+//Route::get('/create_account', [AccountController::class, 'create'])
+//->name("create.account");
+//Route::post('/discover_accounts', [AccountController::class, 'store'])
+//->name("store.account");
+Route::get('/edit_profile', [AccountController::class, 'edit'])
+->name("edit.account")->middleware('auth');
+Route::post('/edit_profile/update', [AccountController::class, 'update'])
+->name("update.account")->middleware('auth');
 
 
-//for looking at new posts
+//Routes for looking at posts
 Route::get('/discover', [PostController::class, 'index'])
 ->name("discover.posts");
 Route::get('/discover/{post}', [PostController::class, 'show'])
 ->name("specific.post");
-//adding a like to the specific post
+
+//Routes for adding likes and dislikes
 Route::post('/discover/{post}/adding_like', [PostController::class, 'add_like'])
 ->name("post.add_like");
 Route::post('/discover/{post}/adding_dislike', [PostController::class, 'add_dislike'])
 ->name("post.add_dislike");
 
 //creates a new post
-//Waiting for authentication to create the rest
 Route::get('/create_post', [PostController::class, 'create'])
 ->name("create.post");
 //uploads a post
