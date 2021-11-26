@@ -36,22 +36,27 @@ Route::post('/edit_profile/update', [AccountController::class, 'update'])
 
 //Routes for looking at posts
 Route::get('/discover', [PostController::class, 'index'])
-->name("discover.posts");
+->name("discover.posts")->middleware('auth');
 Route::get('/discover/{post}', [PostController::class, 'show'])
-->name("specific.post");
+->name("specific.post")->middleware('auth');
 
 //Routes for adding likes and dislikes
 Route::post('/discover/{post}/adding_like', [PostController::class, 'add_like'])
-->name("post.add_like");
+->name("post.add_like")->middleware('auth');
 Route::post('/discover/{post}/adding_dislike', [PostController::class, 'add_dislike'])
-->name("post.add_dislike");
+->name("post.add_dislike")->middleware('auth');
 
-//creates a new post
+//for creating a new post
 Route::get('/create_post', [PostController::class, 'create'])
-->name("create.post");
-//uploads a post
-Route::post('/discover', [PostController::class, 'store'])
-->name("store.post");
+->name("create.post")->middleware('auth');
+Route::post('/create_post/creating', [PostController::class, 'store'])
+->name("store.post")->middleware('auth');
+
+//for editing a post
+Route::get('/edit_post/{post}', [PostController::class, 'edit'])
+->name("edit.post")->middleware('auth');
+Route::post('/edit_post/{post}/update', [PostController::class, 'update'])
+->name("update.post")->middleware('auth');
 
 
 //Route::post('/discover/{post}', [PostController::class, 'add_like']);
@@ -63,8 +68,11 @@ Route::post('/discover', [PostController::class, 'store'])
 Route::get('/notifications', [NotificationController::class, 'index'])
 ->name("notifications");
 
+//for adding and deleting friends
 Route::post('/discover_accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
 ->name("add.friend");
+Route::post('/discover_accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
+->name("delete.friend");
 //Route::post('/discover_accounts/{accounts}')
 
 

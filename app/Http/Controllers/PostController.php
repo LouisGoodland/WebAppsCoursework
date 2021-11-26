@@ -40,44 +40,43 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedAccount = $request->validate([
+        $validated_post = $request->validate([
             'content' => 'required',
         ]);
 
+        //creates a new post
         $p = new Post;
-        $p->content = $validatedAccount['content'];
+        $p->content = $validated_post['content'];
 
         //will need to update to make it use the account that is logged in
-        $p->account_id = Account::all()->random()->id;
+        $p->account_id = auth()->user()->account->id;
         $p->save();
 
         //makes a notification for the post produced
         Notification::factory()->createNotifications($p);
 
         session()->flash('message', 'uploaded');
-        return redirect('/discover');
+        return redirect(route('discover.posts'));
     }
 
 
 
-    public function add_like($id)
+    public function add_like(Post $post)
     {
-        $post = Post::findOrFail($id);
         $post->likes = $post->likes + 1;
         $post->save();
 
-        return redirect()->route('specific.post', ['post' => $id]);
+        return redirect()->route('specific.post', ['post' => $post]);
     }
 
 
 
-    public function add_dislike($id)
+    public function add_dislike(Post $post)
     {
-        $post = Post::findOrFail($id);
         $post->dislikes = $post->dislikes + 1;
         $post->save();
         
-        return redirect()->route('specific.post', ['post' => $id]);
+        return redirect()->route('specific.post', ['post' => $post]);
     }
 
     /**
@@ -86,9 +85,8 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
 
         $post->views = $post->views + 1;
         $post->save();
@@ -108,7 +106,15 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        //Need to do some authorisation here
+        if(auth()->user()->account->id == $post->account_id)
+        {
+            return view('posts.edit', ['post' => $post]);
+        }
+        else
+        {
+            return redirect(route('discover.posts'));
+        }
     }
 
     /**
@@ -120,7 +126,14 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated_post_change = $request->validate([
+            'content' => 'required',
+        ]);
+
+        $post->content = $validated_post_change['content'];
+        $post->save();
+
+        return redirect(route('discover.posts'));
     }
 
     /**
