@@ -24,10 +24,7 @@ Route::get('/discover_accounts', [AccountController::class, 'index'])
 Route::get('/discover_accounts/{account}', [AccountController::class, 'show'])
 ->name("specific.account")->middleware('auth');
 
-//Route::get('/create_account', [AccountController::class, 'create'])
-//->name("create.account");
-//Route::post('/discover_accounts', [AccountController::class, 'store'])
-//->name("store.account");
+//for editing the users profile
 Route::get('/edit_profile', [AccountController::class, 'edit'])
 ->name("edit.account")->middleware('auth');
 Route::post('/edit_profile/update', [AccountController::class, 'update'])
@@ -57,23 +54,18 @@ Route::get('/edit_post/{post}', [PostController::class, 'edit'])
 ->name("edit.post")->middleware('auth');
 Route::post('/edit_post/{post}/update', [PostController::class, 'update'])
 ->name("update.post")->middleware('auth');
+Route::post('/edit_post/{post}/delete', [PostController::class, 'destroy'])
+->name("destroy.post")->middleware('auth');
 
-
-//Route::post('/discover/{post}', [PostController::class, 'add_like']);
-
-//This will change (get rid of account, just have logged in details)
-//for looking at posts from accounts that the user follows
-
-//Looking at notifications (all for now but should be simplified)
+//Looking at notifications
 Route::get('/notifications', [NotificationController::class, 'index'])
-->name("notifications");
+->name("notifications")->middleware('auth');
 
 //for adding and deleting friends
 Route::post('/discover_accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
-->name("add.friend");
+->name("add.friend")->middleware('auth');
 Route::post('/discover_accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
-->name("delete.friend");
-//Route::post('/discover_accounts/{accounts}')
+->name("delete.friend")->middleware('auth');
 
 
 

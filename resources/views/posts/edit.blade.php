@@ -11,4 +11,8 @@
         value="{{ old('content') }}"></p>
         <input type="submit" value="Submit">
     </form>
+    <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+        @csrf
+        <input type="submit" value="Delete">
+    </form>
 @endsection

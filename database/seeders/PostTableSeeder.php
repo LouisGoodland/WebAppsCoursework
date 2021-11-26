@@ -15,7 +15,7 @@ class PostTableSeeder extends Seeder
     public function run()
     {
         //Creates two posts
-        $amount_of_posts_to_produce = 2;
+        $amount_of_posts_to_produce = 5;
         //While it still needs to make more posts
         $production_count = 0;
         while($production_count < $amount_of_posts_to_produce){

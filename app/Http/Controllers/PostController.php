@@ -126,13 +126,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $validated_post_change = $request->validate([
-            'content' => 'required',
-        ]);
-
-        $post->content = $validated_post_change['content'];
-        $post->save();
-
+        if(auth()->user()->account->id == $post->account_id)
+        {
+            $validated_post_change = $request->validate([
+                'content' => 'required',
+            ]);
+            
+            $post->content = $validated_post_change['content'];
+            $post->save();
+        }
         return redirect(route('discover.posts'));
     }
 
@@ -144,6 +146,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if(auth()->user()->account->id == $post->account_id)
+        {
+            $post->delete();
+        }
+        return redirect(route('discover.posts'));
     }
 }

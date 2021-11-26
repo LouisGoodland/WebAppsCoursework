@@ -21,7 +21,7 @@ class FriendshipTableSeeder extends Seeder
         $amount_of_friends_to_produce = 11;
         //whilst it has friends to produce
         $production_count = 0;
-        while($production_count < $maximum_possible_friends){
+        while($production_count < $amount_of_friends_to_produce){
 
             //if the amount of friends doesn't pass the maximum possible friends
             if(count(Friendship::all())<$maximum_possible_friends){
