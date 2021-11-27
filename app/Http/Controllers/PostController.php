@@ -40,15 +40,30 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        //change required later
         $validated_post = $request->validate([
-            'content' => 'required',
+            'file' => 'mimes:jpeg,bmp,png|required',
+            'content' => 'required'
         ]);
 
         //creates a new post
         $p = new Post;
-        $p->content = $validated_post['content'];
 
-        //will need to update to make it use the account that is logged in
+        //if the post has content
+        $p->content = $validated_post['content'];
+        
+        //needs to be under an if
+        if($request->hasFile('file'))
+        {
+            //stores the image under the post images folder
+            $request->file->store('post_file', 'public');
+
+            //saves the post
+            //$p->name = $validated_post['name'];
+            $p->file_path = $request->file->hashName();
+        }
+
+        //adds the account id and saves
         $p->account_id = auth()->user()->account->id;
         $p->save();
 
