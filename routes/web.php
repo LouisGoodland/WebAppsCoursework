@@ -18,11 +18,20 @@ use App\Http\Controllers\FriendshipController;
 */
 
 
-//These are pages for viewing lots of users
-Route::get('/discover_accounts', [AccountController::class, 'index'])
+//Pages for discovering new accounts and posts
+Route::get('/accounts', [AccountController::class, 'index'])
 ->name("discover.accounts")->middleware('auth');
-Route::get('/discover_accounts/{account}', [AccountController::class, 'show'])
+Route::get('/accounts/filtered_view', [AccountController::class, 'index_filtered'])
+->name("discover.accounts.filtered")->middleware('auth');
+
+Route::get('/posts', [PostController::class, 'index'])
+->name("discover.posts")->middleware('auth');
+
+//Routes for viewing specific accounts and posts
+Route::get('/accounts/{account}', [AccountController::class, 'show'])
 ->name("specific.account")->middleware('auth');
+Route::get('/posts/{post}', [PostController::class, 'show'])
+->name("specific.post")->middleware('auth');
 
 //for editing the users profile
 Route::get('/edit_profile', [AccountController::class, 'edit'])
@@ -30,17 +39,10 @@ Route::get('/edit_profile', [AccountController::class, 'edit'])
 Route::post('/edit_profile/update', [AccountController::class, 'update'])
 ->name("update.account")->middleware('auth');
 
-
-//Routes for looking at posts
-Route::get('/discover', [PostController::class, 'index'])
-->name("discover.posts")->middleware('auth');
-Route::get('/discover/{post}', [PostController::class, 'show'])
-->name("specific.post")->middleware('auth');
-
 //Routes for adding likes and dislikes
-Route::post('/discover/{post}/adding_like', [PostController::class, 'add_like'])
+Route::post('/posts/{post}/adding_like', [PostController::class, 'add_like'])
 ->name("post.add_like")->middleware('auth');
-Route::post('/discover/{post}/adding_dislike', [PostController::class, 'add_dislike'])
+Route::post('/posts/{post}/adding_dislike', [PostController::class, 'add_dislike'])
 ->name("post.add_dislike")->middleware('auth');
 
 //for creating a new post
@@ -62,9 +64,9 @@ Route::get('/notifications', [NotificationController::class, 'index'])
 ->name("notifications")->middleware('auth');
 
 //for adding and deleting friends
-Route::post('/discover_accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
+Route::post('/accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
 ->name("add.friend")->middleware('auth');
-Route::post('/discover_accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
+Route::post('/accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
 ->name("delete.friend");
 
 //routes for deciding if an admin
@@ -78,12 +80,11 @@ Route::get('/admin/notifications',  [NotificationController::class, 'index'])
 ->name("admin.notifications")->middleware('auth');
 
 //admin ability to delete user
-Route::post('/discover_accounts/{account}', [AccountController::class, 'destroy'])
+Route::post('/account/{account}', [AccountController::class, 'destroy'])
 ->name("admin.delete.account")->middleware('auth');
 
 
-//default 
-
+//default routes
 //This is a route for the welcome page
 Route::get('/', function () {
     return view('welcome');

@@ -23,13 +23,11 @@ class CreatePostsTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts')
                 ->onDelete('cascade')->onUpdate('cascade');
 
-            //image content
-            //$table->string('name')->nullable();
+            //Content
             $table->string('image_path')->nullable();
-            
-            //post content
             $table->string('content')->nullable();
 
+            //Attributes
             $table->integer('views')->default(0);
             $table->integer('likes')->default(0);
             $table->integer('dislikes')->default(0);

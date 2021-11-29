@@ -91,8 +91,25 @@ class FriendshipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Account $account)
     {
-        //
+        //Need to implement here
+        //convert account to friendship
+        $friendship_to_destroy_search = 
+        Friendship::where('account_id_sender', auth()->user()->account->id)
+        ->where('account_id_reciever', $account->id)->first();
+
+        if($friendship_to_destroy_search != null)
+        {
+            $friendship_to_destroy = Friendship::findOrFail($friendship_to_destroy_search->id);
+            $friendship_to_destroy->delete();
+        }
+        else 
+        {
+            dd("there has been an error");
+        }
+
+        return redirect( route('discover.accounts') );
+
     }
 }

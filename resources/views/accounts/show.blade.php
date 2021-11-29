@@ -25,6 +25,11 @@
             @csrf
             <input type="submit" value="Add as friend">
         </form>
+    @else
+        <form method="POST" action={{ route('delete.friend', ['account' => $account]) }}>
+            @csrf
+            <input type="submit" value="Remove as friend">
+        </form>
     @endif
 
     @if (auth()->user()->account->is_admin)
