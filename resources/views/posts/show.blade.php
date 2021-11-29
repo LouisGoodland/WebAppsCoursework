@@ -19,6 +19,11 @@
         <input type="submit" value="dislike">
     </form>
 
+    @if ($post->image_path != null)
+        <img src="{{ asset('images/'.$post->image_path) }}"/>
+        
+    @endif
+
     @foreach ($comments as $comment)
         <li>{{$accounts->where('id', $comment->account_id)->first()->username}} commented:</a></li>
         <li>{{$comment->content}}</li>

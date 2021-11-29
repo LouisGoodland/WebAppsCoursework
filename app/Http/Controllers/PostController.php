@@ -40,30 +40,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         //change required later
         $validated_post = $request->validate([
-            'file' => 'mimes:jpeg,bmp,png|required',
+            'image' => 'mimes:jpeg,bmp,png,jpg|required|max:81920',
             'content' => 'required'
         ]);
 
         //creates a new post
         $p = new Post;
 
-        //if the post has content
-        $p->content = $validated_post['content'];
+        $newImageName = $request->image->hashName();
+        $request->image->move(public_path('images'), $newImageName);
         
-        //needs to be under an if
-        if($request->hasFile('file'))
-        {
-            //stores the image under the post images folder
-            $request->file->store('post_file', 'public');
-
-            //saves the post
-            //$p->name = $validated_post['name'];
-            $p->file_path = $request->file->hashName();
-        }
-
-        //adds the account id and saves
+        $p->content = $validated_post['content'];
+        $p->image_path = $newImageName;
         $p->account_id = auth()->user()->account->id;
         $p->save();
 
@@ -102,13 +93,16 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-
+        //adds a view to the post upon viewing it
         $post->views = $post->views + 1;
         $post->save();
         
         $comments_on_post = Comment::where('post_id', $post->id)->get();
         //will be used to collect information about the users
         $accounts = Account::get();
+
+        //dd({{ URL::to('/')}}/post_file/{{$post->file_path}});
+
         return view('posts.show', ['post' => $post, 'comments' => $comments_on_post,
                     'accounts' => $accounts]);
     }

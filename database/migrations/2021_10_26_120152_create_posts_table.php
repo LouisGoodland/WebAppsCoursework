@@ -24,8 +24,8 @@ class CreatePostsTable extends Migration
                 ->onDelete('cascade')->onUpdate('cascade');
 
             //image content
-            $table->string('name')->nullable();
-            $table->string('file_path')->nullable();
+            //$table->string('name')->nullable();
+            $table->string('image_path')->nullable();
             
             //post content
             $table->string('content')->nullable();

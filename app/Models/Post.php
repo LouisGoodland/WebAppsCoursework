@@ -9,10 +9,7 @@ class Post extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
         'file_path',
-        'created_at',
-        'updated_at'
     ];
 
     //a post is owned by a user

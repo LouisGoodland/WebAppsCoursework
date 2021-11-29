@@ -8,7 +8,7 @@
     <form method="POST" action={{ route('store.post') }} enctype="multipart/form-data">
         @csrf
 
-        <input type="file" class="form-control-file" name="file">
+        <input type="file"  name="image">
 
         <p>Post content: <input type="text" name="content"></p>
         <input type="submit" value="Submit">
