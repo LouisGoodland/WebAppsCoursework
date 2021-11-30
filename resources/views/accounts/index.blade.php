@@ -1,15 +1,15 @@
 @extends('layouts.posts')
 
 @section('title')
-    @if($is_viewing_new ?? '')
-        @if($is_viewing_new == 1)
-            Viewing Friends
-        @else
-            Viewing New Accounts
-        @endif
-    @else
+    @if($is_viewing_new == 1)
         Viewing All Accounts
+    @elseif($is_viewing_new == 2)
+        Viewing New Accounts
+    @else
+        Viewing Friends
     @endif
+
+
     
 
 @endsection
@@ -18,11 +18,19 @@
     <li>Logged in currently is: {{auth()->user()->account->username}}</li>
     <br>
 
-    <form method="GET" action={{ route('discover.accounts.filtered') }} }}>
+    <form method="GET" action={{ route('discover.accounts') }} }}>
         @csrf
-        <input type="checkbox"  name="following">
-        <input type="checkbox"  name="not_following">
-        <input type="submit" value="Submit">
+        <input type="submit" value="load all">
+    </form>
+
+    <form method="GET" action={{ route('discover.accounts.friends') }} }}>
+        @csrf
+        <input type="submit" value="load friends">
+    </form>
+
+    <form method="GET" action={{ route('discover.accounts.new') }} }}>
+        @csrf
+        <input type="submit" value="load new">
     </form>
     
 

@@ -17,32 +17,36 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::all()->whereNotIn('id', auth()->user()->account->id);
-        return view('accounts.index', ['accounts' => $accounts]);
+        $accounts_to_remove = Account::all()->where('id', auth()->user()->account->id)
+        ->pluck('id');
+        $is_viewing_new = 1;
+        
+        return app('App\Http\Controllers\AccountController')->show_all($is_viewing_new, $accounts_to_remove);
     }
 
-    public function index_filtered(Request $request)
+    public function index_new()
     {
-        //produces a list of all the accounts the user follows
-        if($request['following']=="on")
-        {
-            //gets a list of the accounts the user follows
-            $is_viewing_new = 2;
-            $accounts_to_remove = Friendship::all()
-            ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
-        }
+        $is_viewing_new = 2;
+        $accounts_to_remove = Friendship::all()
+        ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
 
-        else
-        {
-            $is_viewing_new = 1;
-            $temp = Friendship::all()
-            ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
-            //gets a list of accounts that the user doesn't follow
-            $accounts_to_remove = Account::all()
-            ->whereNotIn('id', $temp)->pluck('id');
-        }
+        return app('App\Http\Controllers\AccountController')->show_all($is_viewing_new, $accounts_to_remove);
+    }
 
-        //gets a list of all users who aren't friends with the sender
+    public function index_friends()
+    {
+        $is_viewing_new = 3;
+        $temp = Friendship::all()
+        ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
+        //gets a list of accounts that the user doesn't follow
+        $accounts_to_remove = Account::all()
+        ->whereNotIn('id', $temp)->pluck('id');
+
+        return app('App\Http\Controllers\AccountController')->show_all($is_viewing_new, $accounts_to_remove);
+    }
+
+    public function show_all($is_viewing_new, $accounts_to_remove)
+    {
         $accounts = Account::all()
         ->whereNotIn('id', auth()->user()->account->id)
         ->whereNotIn('id', $accounts_to_remove);
@@ -50,7 +54,6 @@ class AccountController extends Controller
         return view('accounts.index', ['accounts' => $accounts, 
         'is_viewing_new' => $is_viewing_new]);
     }
-
 
 
     /**

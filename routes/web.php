@@ -18,14 +18,21 @@ use App\Http\Controllers\FriendshipController;
 */
 
 
-//Pages for discovering new accounts and posts
+//pages for showing accounts
 Route::get('/accounts', [AccountController::class, 'index'])
 ->name("discover.accounts")->middleware('auth');
-Route::get('/accounts/filtered_view', [AccountController::class, 'index_filtered'])
-->name("discover.accounts.filtered")->middleware('auth');
+Route::get('/accounts/friends', [AccountController::class, 'index_friends'])
+->name("discover.accounts.friends")->middleware('auth');
+Route::get('/accounts/new', [AccountController::class, 'index_new'])
+->name("discover.accounts.new")->middleware('auth');
 
+//pages for showing posts
 Route::get('/posts', [PostController::class, 'index'])
 ->name("discover.posts")->middleware('auth');
+Route::get('/posts/friends', [PostController::class, 'index_friends'])
+->name("discover.posts.friends")->middleware('auth');
+Route::get('/posts/new', [AccountController::class, 'index_new'])
+->name("discover.posts.new")->middleware('auth');
 
 //Routes for viewing specific accounts and posts
 Route::get('/accounts/{account}', [AccountController::class, 'show'])
