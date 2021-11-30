@@ -10,8 +10,6 @@
     @endif
 
 
-    
-
 @endsection
 
 @section('content')

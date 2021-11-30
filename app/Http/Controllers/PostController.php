@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Account;
+use App\Models\Friendship;
 use App\Models\Notification;
 
 use Illuminate\Http\Request;
@@ -16,10 +17,50 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+
     public function index()
     {
-        $posts = Post::all();
-        return view('posts.index', ['posts' => $posts]);
+        $posts_to_remove = Post::all()->where('user_id', auth()->user()->account->id)
+        ->pluck('id');
+        $is_viewing_new = 1;
+        
+        return app('App\Http\Controllers\PostController')->show_all($is_viewing_new, $posts_to_remove);
+    }
+
+    public function index_new()
+    {
+        $is_viewing_new = 2;
+
+        $account_friends = Friendship::all()
+        ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
+
+        $posts_to_remove = Post::all()
+        ->whereIn('account_id', $account_friends)->pluck('id');
+
+        return app('App\Http\Controllers\PostController')->show_all($is_viewing_new, $posts_to_remove);
+    }
+
+    public function index_friends()
+    {
+        $is_viewing_new = 3;
+
+        $account_friends = Friendship::all()
+        ->where('account_id_sender', auth()->user()->account->id)->pluck('account_id_reciever');
+
+        $posts_to_remove = Post::all()
+        ->whereNotIn('account_id', $account_friends)->pluck('id');
+
+        return app('App\Http\Controllers\PostController')->show_all($is_viewing_new, $posts_to_remove);
+    }
+
+    public function show_all($is_viewing_new, $posts_to_remove)
+    {
+        $posts = Post::all()
+        ->whereNotIn('id', $posts_to_remove);
+
+        return view('posts.index', ['posts' => $posts, 
+        'is_viewing_new' => $is_viewing_new]);
     }
 
     /**

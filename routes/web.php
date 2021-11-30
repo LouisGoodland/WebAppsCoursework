@@ -31,7 +31,7 @@ Route::get('/posts', [PostController::class, 'index'])
 ->name("discover.posts")->middleware('auth');
 Route::get('/posts/friends', [PostController::class, 'index_friends'])
 ->name("discover.posts.friends")->middleware('auth');
-Route::get('/posts/new', [AccountController::class, 'index_new'])
+Route::get('/posts/new', [PostController::class, 'index_new'])
 ->name("discover.posts.new")->middleware('auth');
 
 //Routes for viewing specific accounts and posts
