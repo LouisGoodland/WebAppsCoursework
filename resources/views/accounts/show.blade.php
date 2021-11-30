@@ -20,15 +20,22 @@
     @endif
     <li>Amount of posts: {{$posts->count()}}</li>
 
-    @if($is_friends_with_user == false)
+    @if($followed_by_user == false)
         <form method="POST" action={{ route('add.friend', ['account' => $account]) }}>
             @csrf
-            <input type="submit" value="Add as friend">
+            <input type="submit" value="Follow">
         </form>
     @else
         <form method="POST" action={{ route('delete.friend', ['account' => $account]) }}>
             @csrf
-            <input type="submit" value="Remove as friend">
+            <input type="submit" value="Stop Following">
+        </form>
+    @endif
+
+    @if($follows_user == true)
+        <form method="POST" action={{ route('removing.follow', ['account' => $account]) }}>
+            @csrf
+            <input type="submit" value="Remove as Follower">
         </form>
     @endif
 

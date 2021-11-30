@@ -28,22 +28,25 @@
 
     @if($following ?? "")
         <h3> Accounts the user is following </h3>
-        @foreach ($following as $follower)
-            <li>{{$follower->id}}</a></li>
+        @foreach ($following as $account)
+            <li>Username: <a href={{ route('specific.account', ['account' => $account->id]) }}>
+            {{$account->username}}</a></li>
         @endforeach
     @endif
 
     @if($followers ?? "")
         <h3> Accounts following the user </h3>
-        @foreach ($followers as $follower)
-            <li>{{$follower->id}}</a></li>
+        @foreach ($followers as $account)
+            <li>Username: <a href={{ route('specific.account', ['account' => $account->id]) }}>
+            {{$account->username}}</a></li>
         @endforeach
     @endif
 
     @if($follow_back ?? "")
         <h3> Friends </h3>
-        @foreach ($follow_back as $follower)
-            <li>{{$follower->id}}</a></li>
+        @foreach ($follow_back as $account)
+            <li>Username: <a href={{ route('specific.account', ['account' => $account->id]) }}>
+            {{$account->username}}</a></li>
         @endforeach
     @endif
     

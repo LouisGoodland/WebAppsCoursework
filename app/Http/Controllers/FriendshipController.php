@@ -50,17 +50,26 @@ class FriendshipController extends Controller
     public function get_friendship_data()
     {
         //list of every account the user follows
-        $account_friends = Friendship::all()
-        ->where("account_id_sender", auth()->user()->account->id);
+        $account_friends_ids = Friendship::all()
+        ->where("account_id_sender", auth()->user()->account->id)
+        ->pluck("account_id_reciever");
+        $account_friends = Account::all()
+        ->whereIn("id", $account_friends_ids);
         
         //list of every account who follows the user
-        $accounts_who_follow = Friendship::all()
-        ->where("account_id_reciever", auth()->user()->account->id);
+        $accounts_who_follow_ids = Friendship::all()
+        ->where("account_id_reciever", auth()->user()->account->id)
+        ->pluck("account_id_sender");
+        $accounts_who_follow = Account::all()
+        ->whereIn("id", $accounts_who_follow_ids);
 
         //list of every friend and user who follow each other back
-        $friendships = Friendship::all()
-        ->whereIn('account_id_sender', $account_friends->pluck("account_id_reciever"))
-        ->where("account_id_reciever", '=', auth()->user()->account->id);
+        $friendships_ids = Friendship::all()
+        ->whereIn('account_id_sender', $account_friends_ids)
+        ->where("account_id_reciever", '=', auth()->user()->account->id)
+        ->pluck("account_id_sender");
+        $friendships = Account::all()
+        ->whereIn("id", $friendships_ids);
         
         return [$account_friends, $accounts_who_follow, $friendships];
     }
@@ -83,7 +92,7 @@ class FriendshipController extends Controller
         Notification::factory()->createNotifications($f);
 
         session()->flash('message', 'added a friend');
-        return redirect( route('discover.accounts') );
+        return redirect(route('specific.account', ["account" => $account]));
     }
 
     /**
@@ -137,13 +146,12 @@ class FriendshipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Account $account)
+    public function destroy(Account $account, $sender, $reciever)
     {
-        //Need to implement here
-        //convert account to friendship
-        $friendship_to_destroy_search = 
-        Friendship::where('account_id_sender', auth()->user()->account->id)
-        ->where('account_id_reciever', $account->id)->first();
+        
+        $friendship_to_destroy_search = Friendship::all()
+        ->where('account_id_sender', $sender)
+        ->where('account_id_reciever', $reciever)->first();
 
         if($friendship_to_destroy_search != null)
         {
@@ -155,7 +163,21 @@ class FriendshipController extends Controller
             dd("there has been an error");
         }
 
-        return redirect( route('discover.accounts') );
+        return redirect(route('specific.account', ["account" => $account]));
+    }
 
+    public function remove_follow(Account $account)
+    {
+        $sender = $account->id;
+        $reciever = auth()->user()->account->id;
+        return app('App\Http\Controllers\FriendshipController')->destroy($account, $sender, $reciever);
+        
+    }
+
+    public function stop_follow(Account $account)
+    {
+        $sender = auth()->user()->account->id;
+        $reciever = $account->id;
+        return app('App\Http\Controllers\FriendshipController')->destroy($account, $sender, $reciever);
     }
 }

@@ -73,8 +73,10 @@ Route::get('/notifications', [NotificationController::class, 'show'])
 //for adding and deleting friends
 Route::post('/accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
 ->name("add.friend")->middleware('auth');
-Route::post('/accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
-->name("delete.friend");
+Route::post('/accounts/{account}/deleting_friend', [FriendshipController::class, 'stop_follow'])
+->name("delete.friend")->middleware('auth');
+Route::post('accounts/{account}/removing_follow', [FriendshipController::class, 'remove_follow'])
+->name("removing.follow")->middleware('auth');
 
 //shows all the user friends
 Route::get('/friendships', [FriendshipController::class, 'index'])

@@ -105,16 +105,20 @@ class AccountController extends Controller
     {
         
         //used to determine if the logged in user is friends with the account
-        $is_friends_with_user = Friendship::all()
+        $followed_by_user = Friendship::all()
         ->where('account_id_sender', auth()->user()->account->id)
         ->where('account_id_reciever', $account->id)->count()>0;
+
+        $follows_user = Friendship::all()
+        ->where('account_id_sender', $account->id)
+        ->where('account_id_reciever', auth()->user()->account->id)->count()>0;
 
         //gets all of the posts the account being viewed has done
         $posts_by_account = Post::where('account_id', $account->id)->get();
 
         //returns the view
         return view('accounts.show', ['account' => $account, 'posts' => $posts_by_account,
-        'is_friends_with_user' => $is_friends_with_user]);
+        'followed_by_user' => $followed_by_user, 'follows_user' => $follows_user]);
     }
 
     /**
