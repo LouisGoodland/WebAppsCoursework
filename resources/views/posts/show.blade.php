@@ -9,15 +9,17 @@
     <li>{{$post->content}}</li>
     <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
 
-    <form method="POST" action={{ route('post.add_like', ['post' => $post->id]) }}>
-        @csrf
-        <input type="submit" value="like">
-    </form>
-    
-    <form method="POST" action={{ route('post.add_dislike', ['post' => $post->id]) }}>
-        @csrf
-        <input type="submit" value="dislike">
-    </form>
+    @if(auth()->user()->account->id != $post->account_id)
+        <form method="POST" action={{ route('post.add_like', ['post' => $post->id]) }}>
+            @csrf
+            <input type="submit" value="like">
+        </form>
+        
+        <form method="POST" action={{ route('post.add_dislike', ['post' => $post->id]) }}>
+            @csrf
+            <input type="submit" value="dislike">
+        </form>
+    @endif
 
     @if ($post->image_path != null)
         <img src="{{ asset('images/'.$post->image_path) }}"/>
@@ -35,6 +37,13 @@
             @csrf
             <input type="submit" value="Silence as admin!">
         </form>
+    @elseif (auth()->user()->account->id == $post->account_id)
+        <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+            @csrf
+            <input type="submit" value="Delete post">
+        </form>
     @endif
+
+
     <li><a href={{ route('discover.posts') }}>Back</a></li>
 @endsection

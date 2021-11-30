@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Account;
 use App\Models\Friendship;
 use App\Models\Notification;
+use App\Models\AccountPostInteraction;
 
 use Illuminate\Http\Request;
 
@@ -113,7 +114,9 @@ class PostController extends Controller
         $post->likes = $post->likes + 1;
         $post->save();
 
-        return redirect()->route('specific.post', ['post' => $post]);
+        //Creates an interaction
+        app('App\Http\Controllers\PostController')->produceInteraction($post, "like");
+        return app('App\Http\Controllers\PostController')->show_again($post);
     }
 
 
@@ -123,7 +126,20 @@ class PostController extends Controller
         $post->dislikes = $post->dislikes + 1;
         $post->save();
         
-        return redirect()->route('specific.post', ['post' => $post]);
+        //Creates an interaction
+        app('App\Http\Controllers\PostController')->produceInteraction($post, "dislike");
+
+        return app('App\Http\Controllers\PostController')->show_again($post);
+    }
+
+    //produces a new interaction
+    public function produceInteraction(Post $post, $type)
+    {
+        $interaction = new AccountPostInteraction;
+        $interaction->account_id = auth()->user()->account->id;
+        $interaction->post_id = $post->id;
+        $interaction->type = $type;
+        $interaction->save();
     }
 
     /**
@@ -137,7 +153,21 @@ class PostController extends Controller
         //adds a view to the post upon viewing it
         $post->views = $post->views + 1;
         $post->save();
+        app('App\Http\Controllers\PostController')->produceInteraction($post, "view");
         
+        $comments_on_post = Comment::where('post_id', $post->id)->get();
+        //will be used to collect information about the users
+        $accounts = Account::get();
+
+        //dd({{ URL::to('/')}}/post_file/{{$post->file_path}});
+
+        return view('posts.show', ['post' => $post, 'comments' => $comments_on_post,
+                    'accounts' => $accounts]);
+    }
+
+    //for when I dont want to add a view (likes / dislikes)
+    public function show_again(Post $post)
+    {
         $comments_on_post = Comment::where('post_id', $post->id)->get();
         //will be used to collect information about the users
         $accounts = Account::get();
