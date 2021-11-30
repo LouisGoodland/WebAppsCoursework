@@ -17,8 +17,54 @@ class FriendshipController extends Controller
      */
     public function index()
     {
-        //
+        $friend_array = app('App\Http\Controllers\FriendshipController')->get_friendship_data();
+        
+        return view('friendships.index', 
+        ["following" => $friend_array[0],
+        "followers" => $friend_array[1],
+        "follow_back" => $friend_array[2]]);
+        
     }
+
+    public function index_following()
+    {
+        $friend_array = app('App\Http\Controllers\FriendshipController')->get_friendship_data();
+        return view('friendships.index', 
+        ["following" => $friend_array[0]]);
+    }
+
+    public function index_followers()
+    {
+        $friend_array = app('App\Http\Controllers\FriendshipController')->get_friendship_data();
+        return view('friendships.index',
+        ["followers" => $friend_array[1]]);
+    }
+
+    public function index_follow_back()
+    {
+        $friend_array = app('App\Http\Controllers\FriendshipController')->get_friendship_data();
+        return view('friendships.index',
+        ["follow_back" => $friend_array[2]]);
+    }
+
+    public function get_friendship_data()
+    {
+        //list of every account the user follows
+        $account_friends = Friendship::all()
+        ->where("account_id_sender", auth()->user()->account->id);
+        
+        //list of every account who follows the user
+        $accounts_who_follow = Friendship::all()
+        ->where("account_id_reciever", auth()->user()->account->id);
+
+        //list of every friend and user who follow each other back
+        $friendships = Friendship::all()
+        ->whereIn('account_id_sender', $account_friends->pluck("account_id_reciever"))
+        ->where("account_id_reciever", '=', auth()->user()->account->id);
+        
+        return [$account_friends, $accounts_who_follow, $friendships];
+    }
+
 
     /**
      * Show the form for creating a new resource.

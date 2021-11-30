@@ -116,7 +116,7 @@ class PostController extends Controller
 
         //Creates an interaction
         app('App\Http\Controllers\PostController')->produceInteraction($post, "like");
-        return app('App\Http\Controllers\PostController')->show_again($post);
+        return app('App\Http\Controllers\PostController')->show_part2($post);
     }
 
 
@@ -129,7 +129,7 @@ class PostController extends Controller
         //Creates an interaction
         app('App\Http\Controllers\PostController')->produceInteraction($post, "dislike");
 
-        return app('App\Http\Controllers\PostController')->show_again($post);
+        return app('App\Http\Controllers\PostController')->show_part2($post);
     }
 
     //produces a new interaction
@@ -155,18 +155,11 @@ class PostController extends Controller
         $post->save();
         app('App\Http\Controllers\PostController')->produceInteraction($post, "view");
         
-        $comments_on_post = Comment::where('post_id', $post->id)->get();
-        //will be used to collect information about the users
-        $accounts = Account::get();
-
-        //dd({{ URL::to('/')}}/post_file/{{$post->file_path}});
-
-        return view('posts.show', ['post' => $post, 'comments' => $comments_on_post,
-                    'accounts' => $accounts]);
+        return app('App\Http\Controllers\PostController')->show_part2($post);
     }
 
     //for when I dont want to add a view (likes / dislikes)
-    public function show_again(Post $post)
+    public function show_part2(Post $post)
     {
         $comments_on_post = Comment::where('post_id', $post->id)->get();
         //will be used to collect information about the users

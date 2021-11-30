@@ -67,7 +67,7 @@ Route::post('/edit_post/{post}/delete', [PostController::class, 'destroy'])
 ->name("destroy.post")->middleware('auth');
 
 //Looking at notifications
-Route::get('/notifications', [NotificationController::class, 'index'])
+Route::get('/notifications', [NotificationController::class, 'show'])
 ->name("notifications")->middleware('auth');
 
 //for adding and deleting friends
@@ -75,6 +75,16 @@ Route::post('/accounts/{account}/adding_friend', [FriendshipController::class, '
 ->name("add.friend")->middleware('auth');
 Route::post('/accounts/{account}/deleting_friend', [FriendshipController::class, 'destroy'])
 ->name("delete.friend");
+
+//shows all the user friends
+Route::get('/friendships', [FriendshipController::class, 'index'])
+->name("friends")->middleware('auth');
+Route::get('/friendships/following', [FriendshipController::class, 'index_following'])
+->name("friends.following")->middleware('auth');
+Route::get('/friendships/followers', [FriendshipController::class, 'index_followers'])
+->name("friends.followers")->middleware('auth');
+Route::get('/friendships/follow_back', [FriendshipController::class, 'index_follow_back'])
+->name("friends.follow_back")->middleware('auth');
 
 //routes for deciding if an admin
 Route::get('/not_an_admin', [AccountController::class, 'revealIfAdmin'])
