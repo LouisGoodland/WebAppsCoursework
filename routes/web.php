@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,10 @@ Route::get('/accounts/{account}', [AccountController::class, 'show'])
 ->name("specific.account")->middleware('auth');
 Route::get('/posts/{post}', [PostController::class, 'show'])
 ->name("specific.post")->middleware('auth');
+
+//for commenting on a post
+Route::post('/posts/{post}/commenting', [CommentController::class, 'store'])
+->name("comment.post")->middleware('auth');
 
 //for viewing own account details
 Route::get('/my_account', [AccountController::class, 'show_self'])

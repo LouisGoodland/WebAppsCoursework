@@ -45,5 +45,12 @@
     @endif
 
 
+    <form method="POST" action={{ route('comment.post', ['post' => $post]) }}>
+        @csrf
+        <p>Post content: <input type="text" name="content"></p>
+        <input type="submit" value="comment">
+    </form>
+
+
     <li><a href={{ route('discover.posts') }}>Back</a></li>
 @endsection
