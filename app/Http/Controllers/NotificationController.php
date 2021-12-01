@@ -22,11 +22,6 @@ class NotificationController extends Controller
     {
         if(auth()->user()->account->is_admin)
         {
-            //need to do stuff here.....
-
-            
-
-
             return view('notifications.index', [
             'accounts' => Account::all(),
             'posts' => Post::all(),

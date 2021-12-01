@@ -6,6 +6,7 @@ use App\Models\Account;
 
 use App\Models\Post;
 use App\Models\Friendship;
+use App\Models\AccountPostInteraction;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -119,6 +120,35 @@ class AccountController extends Controller
         //returns the view
         return view('accounts.show', ['account' => $account, 'posts' => $posts_by_account,
         'followed_by_user' => $followed_by_user, 'follows_user' => $follows_user]);
+    }
+
+    public function show_self()
+    {
+        $posts_by_account = Post::where('account_id', auth()->user()->account->id)->get();
+        return view('accounts.self', ['posts' => $posts_by_account]);
+    }
+
+    public function show_activity()
+    {
+        $views =  AccountPostInteraction::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('type', "view");
+
+        $likes =  AccountPostInteraction::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('type', "like");
+
+        $dislikes =  AccountPostInteraction::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('type', "dislike");
+
+        $posts = Post::all();
+
+        return view('accounts.activity', [
+            'views' => $views,
+            'likes' => $likes,
+            'dislikes' => $dislikes,
+            'posts' => $posts]);
     }
 
     /**

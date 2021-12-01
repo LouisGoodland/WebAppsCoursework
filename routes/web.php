@@ -40,10 +40,17 @@ Route::get('/accounts/{account}', [AccountController::class, 'show'])
 Route::get('/posts/{post}', [PostController::class, 'show'])
 ->name("specific.post")->middleware('auth');
 
-//for editing the users profile
-Route::get('/edit_profile', [AccountController::class, 'edit'])
+//for viewing own account details
+Route::get('/my_account', [AccountController::class, 'show_self'])
+->name("my.account")->middleware('auth');
+Route::get('/my_account/notifications', [NotificationController::class, 'show'])
+->name("notifications")->middleware('auth');
+Route::get('/my_account/activity', [AccountController::class, 'show_activity'])
+->name("activity")->middleware('auth');
+//for editing the user account
+Route::get('/my_account/edit', [AccountController::class, 'edit'])
 ->name("edit.account")->middleware('auth');
-Route::post('/edit_profile/update', [AccountController::class, 'update'])
+Route::post('/my_account/edit/update', [AccountController::class, 'update'])
 ->name("update.account")->middleware('auth');
 
 //Routes for adding likes and dislikes
@@ -65,10 +72,6 @@ Route::post('/edit_post/{post}/update', [PostController::class, 'update'])
 ->name("update.post")->middleware('auth');
 Route::post('/edit_post/{post}/delete', [PostController::class, 'destroy'])
 ->name("destroy.post")->middleware('auth');
-
-//Looking at notifications
-Route::get('/notifications', [NotificationController::class, 'show'])
-->name("notifications")->middleware('auth');
 
 //for adding and deleting friends
 Route::post('/accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
