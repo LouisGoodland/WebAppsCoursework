@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Friendship;
 use App\Models\Notification;
+use App\Models\AccountPostInteraction;
+
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -16,9 +22,19 @@ class NotificationController extends Controller
     {
         if(auth()->user()->account->is_admin)
         {
-            $notifications = Notification::all();
-            return view('notifications.index', ['notifications' => $notifications]);
-        }
+            //need to do stuff here.....
+
+            
+
+
+            return view('notifications.index', [
+            'accounts' => Account::all(),
+            'posts' => Post::all(),
+            'comments' => Comment::all(),
+            'friendships' => Friendship::all(),
+            'notifications' => Notification::all(),
+            'account_post_interactions' => AccountPostInteraction::all()]);
+        } 
         else
         {
             return redirect(route('admin.is_not_a'));
