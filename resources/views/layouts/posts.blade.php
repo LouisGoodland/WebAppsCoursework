@@ -9,6 +9,11 @@
 <body>
     <h1>@yield('title')</h1>
 
+    @if($errors->any())
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    @endif
     <div>
         @yield('content')
     </div>

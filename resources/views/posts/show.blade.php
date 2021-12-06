@@ -21,9 +21,52 @@
         </form>
     @endif
 
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios_min.js"
+    integrity="sha512-DZqqY3PiOvTP9Hk"
+    <div id="root">
+        <p>@{{ message }}</p>
+        <li v-for="comment in comments">@{{ comment }}</li>
+
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#root",
+            data: {
+                comments: [],
+                message: "It Works",
+                newPostName: '',
+            },
+            methods: {
+                axios.post("{{ route('api.comment.post', ['post' => $post]) }}",
+                {
+                    name: this.newPostName;
+                })
+                .then(response => {
+                    this.comments.push(response.data);
+                    this.newPostName = ''
+                })
+                .catch(response => {
+                    console.log(response);
+                })
+            }
+            mounted() {
+                axios.get("{{ route('api.specific.post', ['post' => $post]) }}")
+                .then( response => {
+                    this.comments = response.data;
+                })
+                .catch(response => {
+                    console.log(response);
+                })
+            },
+        });
+    </script>
+
     @if ($post->image_path != null)
         <img src="{{ asset('images/'.$post->image_path) }}"/>
-        
     @endif
 
     @foreach ($comments as $comment)
@@ -45,10 +88,10 @@
     @endif
 
 
-    <form method="POST" action={{ route('comment.post', ['post' => $post]) }}>
+    <form method="POST" action={{ route('api.comment.post', ['post' => $post]) }}>
         @csrf
         <p>Post content: <input type="text" name="content"></p>
-        <input type="submit" value="comment">
+        <input type="submit" value="add the comment">
     </form>
 
 

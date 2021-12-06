@@ -32,10 +32,8 @@ class CreateAccountsTable extends Migration
             $table->string('last_name', 30)->nullable();
             $table->date('date_of_birth')->nullable();
 
-            //privacy details
-            $table->boolean("personal_details_private")->nullable()->default(true);
-            $table->boolean("activity_details_private")->nullable()->default(true);
-            $table->boolean("posts_private")->nullable()->default(false);
+            //profile picture
+            $table->string('image_path')->nullable();
             
         });
     }

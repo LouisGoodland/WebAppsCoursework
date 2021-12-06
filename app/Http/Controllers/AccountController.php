@@ -52,6 +52,14 @@ class AccountController extends Controller
         ->whereNotIn('id', auth()->user()->account->id)
         ->whereNotIn('id', $accounts_to_remove);
 
+        //get amount of the friends that follow
+        //for each account in the list
+        //get the amount of friends that follow that account
+        //$count = Friendship::all()
+        //->where('account_id_reciever', $someting)
+        //->where('account_id_sender', $accounts)
+
+
         return view('accounts.index', ['accounts' => $accounts, 
         'is_viewing_new' => $is_viewing_new]);
     }
@@ -181,27 +189,55 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * 'first_name' => 'max:255',
+     * 'last_name' => 'max:255',
+     *       'date_of_birth' => 'date',
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Account  $account
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
-        //validates the input data
+
         $validated_account_changes = $request->validate([
+            'image' => 'mimes:jpeg,bmp,png,jpg|max:81920',
             'first_name' => 'max:255',
             'last_name' => 'max:255',
-            'date_of_birth' => 'date',
+            'date_of_birth' => 'date|nullable',
         ]);
 
-        //adds the changes to the accounts
         $a = auth()->user()->account;
-        $a->first_name = $validated_account_changes['first_name'];
-        $a->last_name = $validated_account_changes['last_name'];
-        $a->date_of_birth = $validated_account_changes['date_of_birth'];
+
+        //changes if image exists
+        if($request->image != null)
+        {
+            $newImageName = $request->image->hashName();
+            $request->image->move(public_path('profile_pictures'), $newImageName);
+            $a->image_path = $newImageName;
+        }
+
+
+
+        //adds the changes to the accounts
+        if($request->first_name != null)
+        {
+            $a->first_name = $validated_account_changes['first_name'];
+        }
+
+        if($request->last_name != null)
+        {
+            $a->first_name = $validated_account_changes['last_name'];;
+        }
+
+        if($request->date_of_birth != null)
+        {
+            $a->first_name = $validated_account_changes['date_of_birth'];
+        }
+        
         $a->save();
 
-        return redirect(route('discover.accounts'));
+        return redirect(route('my.account'));
 
     }
 

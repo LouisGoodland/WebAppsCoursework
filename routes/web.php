@@ -42,8 +42,8 @@ Route::get('/posts/{post}', [PostController::class, 'show'])
 ->name("specific.post")->middleware('auth');
 
 //for commenting on a post
-Route::post('/posts/{post}/commenting', [CommentController::class, 'store'])
-->name("comment.post")->middleware('auth');
+//Route::post('/posts/{post}/commenting', [CommentController::class, 'store'])
+//->name("comment.post")->middleware('auth');
 
 //for viewing own account details
 Route::get('/my_account', [AccountController::class, 'show_self'])

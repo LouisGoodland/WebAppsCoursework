@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+
+    @if (auth()->user()->account->image_path != null)
+        <img src="{{ asset('profile_pictures/'.auth()->user()->account->image_path) }}"/>
+    @endif
+
     @if(auth()->user()->account->first_name!=null)
         <li>First name: {{auth()->user()->account->first_name}}</li>
     @else

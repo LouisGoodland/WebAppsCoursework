@@ -43,19 +43,14 @@ class CommentController extends Controller
         ]);
 
         
-        //account_id post_id, content
         $a = new Comment;
-        //doesn't like this line
         $a->account_id = auth()->user()->account->id;
         $a->post_id = $post->id;
         $a->content = $verified_data['content'];
 
-        
-        //need to add some validation to make sure its unique
         $a->save();
-        
         session()->flash('message', 'posted');
-        return redirect(route('specific.post', ['post' => $post]));
+        return $a;
     }
 
     /**

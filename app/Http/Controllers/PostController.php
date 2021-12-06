@@ -85,18 +85,22 @@ class PostController extends Controller
 
         //change required later
         $validated_post = $request->validate([
-            'image' => 'mimes:jpeg,bmp,png,jpg|required|max:81920',
+            'image' => 'mimes:jpeg,bmp,png,jpg|max:81920',
             'content' => 'required'
         ]);
 
         //creates a new post
         $p = new Post;
 
-        $newImageName = $request->image->hashName();
-        $request->image->move(public_path('images'), $newImageName);
+        if($request->image != null)
+        {
+            $newImageName = $request->image->hashName();
+            $request->image->move(public_path('images'), $newImageName);
+            $p->image_path = $newImageName;
+        }
+        
         
         $p->content = $validated_post['content'];
-        $p->image_path = $newImageName;
         $p->account_id = auth()->user()->account->id;
         $p->save();
 
@@ -169,6 +173,11 @@ class PostController extends Controller
 
         return view('posts.show', ['post' => $post, 'comments' => $comments_on_post,
                     'accounts' => $accounts]);
+    }
+
+    public function show_api(Post $Post)
+    {
+        return Comment::where('post_id', $post->id)->get();
     }
 
     /**
