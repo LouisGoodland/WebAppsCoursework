@@ -24,10 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/posts/{post}/commenting', [CommentController::class, 'apiStore'])
-->name("api.comment.post");
+->name("api.comment.post")->middleware('auth:sanctum');
 
 Route::get('/posts/{post}', [PostController::class, 'apiShow'])
-->name("api.specific.post");
+->name("api.specific.post")->middleware('auth:sanctum');
 
 
 

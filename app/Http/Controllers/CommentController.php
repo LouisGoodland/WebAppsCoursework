@@ -59,7 +59,8 @@ class CommentController extends Controller
             'content' => 'required',
         ]);
         
-        
+        $user = route('/api/user');
+
         $c = new Comment;
         $c->account_id = $request->user('api')->account->id;
         $c->post_id = $post->id;
