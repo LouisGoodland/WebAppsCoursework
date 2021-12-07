@@ -20,9 +20,6 @@
             <input type="submit" value="dislike">
         </form>
     @endif
-
-
-
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -95,14 +92,6 @@
             <input type="submit" value="Delete post">
         </form>
     @endif
-
-
-    <form method="POST" action={{ route('api.comment.post', ['post' => $post]) }}>
-        @csrf
-        <p>Post content: <input type="text" name="content"></p>
-        <input type="submit" value="add the comment">
-    </form>
-
 
     <li><a href={{ route('discover.posts') }}>Back</a></li>
 @endsection

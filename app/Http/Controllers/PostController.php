@@ -82,6 +82,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->user('api')->account->id);
+        
 
         //change required later
         $validated_post = $request->validate([

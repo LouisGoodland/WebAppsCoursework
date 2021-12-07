@@ -58,10 +58,10 @@ class CommentController extends Controller
         $verified_data = $request->validate([
             'content' => 'required',
         ]);
-
+        
         
         $c = new Comment;
-        $c->account_id = auth()->user()->account->id;
+        $c->account_id = $request->user('api')->account->id;
         $c->post_id = $post->id;
         $c->content = $verified_data['content'];
 
