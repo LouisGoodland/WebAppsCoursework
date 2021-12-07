@@ -23,13 +23,13 @@
 
 
 
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios_min.js"
-    integrity="sha512-DZqqY3PiOvTP9Hk"
     <div id="root">
         <p>@{{ message }}</p>
+        <li>@{{ comments }}
         <li v-for="comment in comments">@{{ comment }}</li>
-
     </div>
 
     <script>
@@ -38,31 +38,21 @@
             data: {
                 comments: [],
                 message: "It Works",
-                newPostName: '',
+                newCommentContent: '',
             },
-            methods: {
-                axios.post("{{ route('api.comment.post', ['post' => $post]) }}",
-                {
-                    name: this.newPostName;
-                })
-                .then(response => {
-                    this.comments.push(response.data);
-                    this.newPostName = ''
-                })
-                .catch(response => {
-                    console.log(response);
-                })
-            }
             mounted() {
                 axios.get("{{ route('api.specific.post', ['post' => $post]) }}")
                 .then( response => {
+                    console.log("here")
                     this.comments = response.data;
                 })
                 .catch(response => {
+                    console.log("hereeeee");
                     console.log(response);
                 })
             },
-        });
+
+        })
     </script>
 
     @if ($post->image_path != null)
