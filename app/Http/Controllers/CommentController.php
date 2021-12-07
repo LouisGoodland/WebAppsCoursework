@@ -60,14 +60,14 @@ class CommentController extends Controller
         ]);
 
         
-        $a = new Comment;
-        $a->account_id = auth()->user()->account->id;
-        $a->post_id = $post->id;
-        $a->content = $verified_data['content'];
+        $c = new Comment;
+        $c->account_id = auth()->user()->account->id;
+        $c->post_id = $post->id;
+        $c->content = $verified_data['content'];
 
-        $a->save();
+        $c->save();
         session()->flash('message', 'posted');
-        return $a;
+        return $c;
     }
 
     /**

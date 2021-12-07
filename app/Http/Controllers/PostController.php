@@ -188,7 +188,8 @@ class PostController extends Controller
 
     public function apiShow(Post $Post)
     {
-        $comments = Comment::all()->where('post_id', $post->id)->get();
+        //$comments = Comment::all()->where('post_id', $post->id)->get();
+        $comments = Comment::all();
         return $comments;
     }
 

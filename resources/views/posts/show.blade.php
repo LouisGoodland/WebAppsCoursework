@@ -30,6 +30,11 @@
         <p>@{{ message }}</p>
         <li>@{{ comments }}
         <li v-for="comment in comments">@{{ comment }}</li>
+
+        <p>Comment: <input type="text" id="input" v-model="newCommentContent"></p>
+        <button @click="createComment">Create</button>
+
+
     </div>
 
     <script>
@@ -40,18 +45,32 @@
                 message: "It Works",
                 newCommentContent: '',
             },
+            methods: {
+                createComment: function(){
+                    axios.post("{{ route('api.comment.post', ['post' => $post]) }}",
+                    {
+                        name: this.newCommentContent
+                    })
+                    .then(response => {
+                        this.comments.push(response.data);
+                        this.newCommentContent = ""
+                    })
+                    .catch(response => {
+                        console.log(response);
+                    })
+                }
+            },
             mounted() {
                 axios.get("{{ route('api.specific.post', ['post' => $post]) }}")
                 .then( response => {
-                    console.log("here")
-                    this.comments = response.data;
+                    console.log("here");
+                    this.comments = response.data
                 })
                 .catch(response => {
                     console.log("hereeeee");
                     console.log(response);
                 })
             },
-
         })
     </script>
 
