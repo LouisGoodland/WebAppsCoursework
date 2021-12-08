@@ -52,16 +52,21 @@ class AccountController extends Controller
         ->whereNotIn('id', auth()->user()->account->id)
         ->whereNotIn('id', $accounts_to_remove);
 
-        //get amount of the friends that follow
-        //for each account in the list
-        //get the amount of friends that follow that account
-        //$count = Friendship::all()
-        //->where('account_id_reciever', $someting)
-        //->where('account_id_sender', $accounts)
+        //sends relevant posts over
+        $posts = Post::all()->whereIn('account_id', $accounts->pluck('id'));
+
+        //sends relevant friendships over for accounts recieving requests
+        $friends_reciever = Friendship::all()->whereIn('account_id_reciever', $accounts->pluck('id'));
+
+        //sends relevant friendships over for accounts sending requests
+        $friends_sender = Friendship::all()->whereIn('account_id_sender', $accounts->pluck('id'));
 
 
         return view('accounts.index', ['accounts' => $accounts, 
-        'is_viewing_new' => $is_viewing_new]);
+        'is_viewing_new' => $is_viewing_new,
+        'posts' => $posts,
+        'friends_reciever' => $friends_reciever,
+        'friends_sender' => $friends_sender]);
     }
 
 
