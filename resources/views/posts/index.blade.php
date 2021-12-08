@@ -12,20 +12,29 @@
 
 @section('content')
 
-    <form method="GET" action={{ route('discover.posts') }} }}>
-        @csrf
-        <input type="submit" value="load all">
-    </form>
+@section('navigation')
+    <div class="col">
+        <form method="GET" action={{ route('discover.posts.friends') }} }}>
+            @csrf
+            @if(Route::currentRouteName()=="discover.posts.friends")
+                <input type="submit" value="load friends" class="btn btn-dark btn-lg w-100 p-2">
+            @else
+                <input type="submit" value="load friends" class="btn btn-light btn-lg w-100 p-2">
+             @endif  
+        </form>
+    </div>
 
-    <form method="GET" action={{ route('discover.posts.friends') }} }}>
-        @csrf
-        <input type="submit" value="load friends">
-    </form>
-
-    <form method="GET" action={{ route('discover.posts.new') }} }}>
-        @csrf
-        <input type="submit" value="load new">
-    </form>
+    <div class="col">
+        <form method="GET" action={{ route('discover.posts.new') }} }}>
+            @csrf
+            @if(Route::currentRouteName()=="discover.posts.new")
+                <input type="submit" value="load new" class="btn btn-dark btn-lg w-100 p-2">
+            @else
+                <input type="submit" value="load new" class="btn btn-light btn-lg w-100 p-2">
+             @endif  
+        </form>
+    </div>
+@endsection
 
     @foreach ($posts as $post)
         <br>
@@ -34,5 +43,6 @@
         <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
         <br>
     @endforeach
+
 
 @endsection

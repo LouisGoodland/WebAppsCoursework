@@ -13,24 +13,31 @@
 @endsection
 
 @section('content')
-    <li>Logged in currently is: {{auth()->user()->account->username}}</li>
-    <br>
 
-    <form method="GET" action={{ route('discover.accounts') }} }}>
-        @csrf
-        <input type="submit" value="load all">
-    </form>
+@section('navigation')
+    <div class="col">
+        <form method="GET" action={{ route('discover.accounts.friends') }} }}>
+            @csrf
+            @if(Route::currentRouteName()=="discover.accounts.friends")
+                <input type="submit" value="load friends" class="btn btn-dark btn-lg w-100 p-2">
+            @else
+                <input type="submit" value="load friends" class="btn btn-light btn-lg w-100 p-2">
+             @endif  
+        </form>
+    </div>
 
-    <form method="GET" action={{ route('discover.accounts.friends') }} }}>
-        @csrf
-        <input type="submit" value="load friends">
-    </form>
-
-    <form method="GET" action={{ route('discover.accounts.new') }} }}>
-        @csrf
-        <input type="submit" value="load new">
-    </form>
-    
+    <div class="col">
+        <form method="GET" action={{ route('discover.accounts.new') }} }}>
+            @csrf
+            @if(Route::currentRouteName()=="discover.accounts.new")
+                <input type="submit" value="load new" class="btn btn-dark btn-lg w-100 p-2">
+            @else
+                <input type="submit" value="load new" class="btn btn-light btn-lg w-100 p-2">
+             @endif  
+        </form>
+    </div>
+@endsection
+        
 
     @foreach ($accounts as $account)
         @if(auth()->user()->account->id != $account->id)

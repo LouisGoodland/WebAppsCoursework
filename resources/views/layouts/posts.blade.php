@@ -23,66 +23,94 @@
         @endforeach
     @endif
 
-    
-
-
 
     <div class="container mw-100 row p-3 mb-2 bg-secondary text-white">
-        <div class="col border border-dark">
+        <div class="col">
 
-            <a href= {{ route("discover.accounts") }}>
-                <input type="submit" value="Accounts" class="btn btn-secondary btn-lg w-100 p-2 dropdown-toggle">
-            </a>
+            @if(Route::currentRouteName()=="discover.accounts")
+                <a href= {{ route("discover.accounts") }}>
+                    <input type="submit" value="Accounts" class="btn btn-dark btn-lg w-100 p-2">
+                </a>
+            @else
+                <a href= {{ route("discover.accounts") }}>
+                    <input type="submit" value="Accounts" class="btn btn-light btn-lg w-100 p-2">
+                </a>
+            @endif
 
         </div>
-        <div class="col border border-dark">
+        <div class="col">
 
-
-            <a href= {{ route("discover.posts") }}>
-                <input type="submit" value="Posts" class="btn btn-secondary btn-lg w-100 p-2">
-            </a>
-
+            @if(Route::currentRouteName()=="discover.posts")
+                <a href= {{ route("discover.posts") }}>
+                    <input type="submit" value="Posts" class="btn btn-dark btn-lg w-100 p-2">
+                </a>
+            @else
+                <a href= {{ route("discover.posts") }}>
+                    <input type="submit" value="Posts" class="btn btn-light btn-lg w-100 p-2">
+                </a>
+            @endif
 
         </div>  
-        <div class="col border border-dark">
-            <a href= {{ route("create.post") }}>
-                <input type="submit" value="Create a post" class="btn btn-secondary btn-lg w-100 p-2">
-            </a>
-        </div> 
-        <div class="col border border-dark">
-            <a href= {{ route("my.account") }}>
-                <input type="submit" value="My Account" class="btn btn-secondary btn-lg w-100 p-2">
-            </a>
-        </div> 
-        <div class="col border border-dark">
-            <a href= {{ route("notifications") }}>
-                <input type="submit" value="Notifications" class="btn btn-secondary btn-lg w-100 p-2">
-            </a>
-        </div> 
-    </div>
-    
-    
-    
-    <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-         data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
-        </a>
+        <div class="col">
 
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
+            @if(Route::currentRouteName()=="create.post")
+                <a href= {{ route("create.post") }}>
+                    <input type="submit" value="Create Post" class="btn btn-dark btn-lg w-100 p-2">
+                </a>
+            @else
+                <a href= {{ route("create.post") }}>
+                    <input type="submit" value="Create Post" class="btn btn-light btn-lg w-100 p-2">
+                </a>
+            @endif
+
+        </div> 
+        <div class="col">
+
+            @if(Route::currentRouteName()=="my.account")
+                <a href= {{ route("my.account") }}>
+                    <input type="submit" value="My Account" class="btn btn-dark btn-lg w-100 p-2">
+                </a>
+            @else
+                <a href= {{ route("my.account") }}>
+                    <input type="submit" value="My Account" class="btn btn-light btn-lg w-100 p-2">
+                </a>
+            @endif
+
+        </div> 
+
+
+        <div class="col">
+
+            @if(Route::currentRouteName()=="notifications")
+                <a href= {{ route("notifications") }}>
+                    <input type="submit" value="Notifications" class="btn btn-dark btn-lg w-100 p-2">
+                </a>
+            @else
+                <a href= {{ route("notifications") }}>
+                    <input type="submit" value="Notifications" class="btn btn-light btn-lg w-100 p-2">
+                </a>
+            @endif
+        </div> 
+
+
     </div>
+
+
+    <div class="container">
+        <div class="navbar navbar-expand-lg navbar-light bg-light">
+            @yield("navigation")
+        </div>
+    </div>
+
+
+
+
 
     <div>
         @yield('content')
     </div>
 
 </body>
-
-
 
 
 </html>

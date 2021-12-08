@@ -27,6 +27,8 @@ class CreateNotificationsTable extends Migration
             $table->morphs('notifiable');
             //text of the notification
             $table->string('notification_text');
+
+            $table->boolean("has_been_read")->default(false);;
         });
     }
 
