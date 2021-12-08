@@ -19,9 +19,9 @@
         <form method="GET" action={{ route('discover.accounts.friends') }} }}>
             @csrf
             @if(Route::currentRouteName()=="discover.accounts.friends")
-                <input type="submit" value="Friends Only" class="btn btn-dark btn-lg w-100 p-2">
+                <input type="submit" value="Friends Only" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
             @else
-                <input type="submit" value="Friends Only" class="btn btn-light btn-lg w-100 p-2">
+                <input type="submit" value="Friends Only" class="btn btn-light btn-lg w-100 p-2 border border-dark">
              @endif  
         </form>
     </div>
@@ -30,9 +30,9 @@
         <form method="GET" action={{ route('discover.accounts.new') }} }}>
             @csrf
             @if(Route::currentRouteName()=="discover.accounts.new")
-                <input type="submit" value="New Accounts Only" class="btn btn-dark btn-lg w-100 p-2">
+                <input type="submit" value="New Accounts Only" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
             @else
-                <input type="submit" value="New Accounts Only" class="btn btn-light btn-lg w-100 p-2">
+                <input type="submit" value="New Accounts Only" class="btn btn-light btn-lg w-100 p-2 border border-dark">
              @endif  
         </form>
     </div>
