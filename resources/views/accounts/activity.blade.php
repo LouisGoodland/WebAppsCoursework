@@ -37,20 +37,20 @@
     <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
         <div class="collapse" id="views">
             <div class="card card-body">
-                    @foreach($views as $view)
-                        <div class="row border border-dark bg-secondary bg-opacity-25">
-                            <div class="col">
-                                <p class="text-center">Post by: {{$view->post->account->username}}</p>
-                            </div>
-                            <div class="col">
-                                <form method="GET" action=
-                                {{ route('specific.post', ['post' => $posts->where('id', $view->post_id)->first()])}}>
-                                    <input type="submit" value="Click here to view" 
-                                    class="btn btn-dark border border-dark">
-                                </form>
-                            </div>
+                @foreach($views as $view)
+                    <div class="row border border-dark bg-secondary bg-opacity-25">
+                        <div class="col">
+                            <p class="text-center">Post by: {{$view->post->account->username}}</p>
                         </div>
-                    @endforeach   
+                        <div class="col">
+                            <form method="GET" action=
+                            {{ route('specific.post', ['post' => $posts->where('id', $view->post_id)->first()])}}>
+                                <input type="submit" value="Click here to view" 
+                                class="btn btn-dark border border-dark">
+                            </form>
+                        </div>
+                    </div>
+                @endforeach   
             </div>
         </div>
     </div>

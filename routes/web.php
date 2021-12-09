@@ -57,6 +57,9 @@ Route::get('/my_account/edit', [AccountController::class, 'edit'])
 ->name("edit.account")->middleware('auth');
 Route::post('/my_account/edit/update', [AccountController::class, 'update'])
 ->name("update.account")->middleware('auth');
+//shows all the user friends
+Route::get('/my_account/friendships', [FriendshipController::class, 'index'])
+->name("friends")->middleware('auth');
 
 //Routes for adding likes and dislikes
 Route::post('/posts/{post}/adding_like', [PostController::class, 'add_like'])
@@ -85,16 +88,6 @@ Route::post('/accounts/{account}/deleting_friend', [FriendshipController::class,
 ->name("delete.friend")->middleware('auth');
 Route::post('accounts/{account}/removing_follow', [FriendshipController::class, 'remove_follow'])
 ->name("removing.follow")->middleware('auth');
-
-//shows all the user friends
-Route::get('/friendships', [FriendshipController::class, 'index'])
-->name("friends")->middleware('auth');
-Route::get('/friendships/following', [FriendshipController::class, 'index_following'])
-->name("friends.following")->middleware('auth');
-Route::get('/friendships/followers', [FriendshipController::class, 'index_followers'])
-->name("friends.followers")->middleware('auth');
-Route::get('/friendships/follow_back', [FriendshipController::class, 'index_follow_back'])
-->name("friends.follow_back")->middleware('auth');
 
 //routes for deciding if an admin
 Route::get('/not_an_admin', [AccountController::class, 'revealIfAdmin'])

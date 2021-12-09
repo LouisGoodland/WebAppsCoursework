@@ -24,7 +24,7 @@
     </div>
 
     <div class="col">
-        <form method="GET" action={{ route('edit.account') }} }}>
+        <form method="GET" action={{ route('friends') }} }}>
             @csrf
             <input type="submit" value="Followers" class="btn btn-success btn-lg w-100 p-2 border border-dark">
         </form>
