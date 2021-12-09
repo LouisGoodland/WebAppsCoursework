@@ -57,11 +57,18 @@ class PostController extends Controller
 
     public function show_all($is_viewing_new, $posts_to_remove)
     {
-        $posts = Post::all()
-        ->whereNotIn('id', $posts_to_remove);
+        $posts = Post::with('account')
+        ->whereNotIn('id', $posts_to_remove)->get();
+        //
+        $test = Post::all()->whereNotIn('id', $posts_to_remove);
+        //dd($posts);
+
+        //gets all of the accounts of posts
+        //$accounts = Account::all()
+        //->whereIn('id', $posts->pluck('account_id'));
 
         return view('posts.index', ['posts' => $posts, 
-        'is_viewing_new' => $is_viewing_new]);
+        'is_viewing_new' => $is_viewing_new,]);
     }
 
     /**
@@ -182,8 +189,6 @@ class PostController extends Controller
         $comments_on_post = Comment::where('post_id', $post->id)->get();
         //will be used to collect information about the users
         $accounts = Account::get();
-
-        //dd({{ URL::to('/')}}/post_file/{{$post->file_path}});
 
         return view('posts.show', ['post' => $post, 'comments' => $comments_on_post,
                     'accounts' => $accounts]);

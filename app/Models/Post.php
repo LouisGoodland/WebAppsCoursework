@@ -13,7 +13,7 @@ class Post extends Model
     ];
 
     //a post is owned by a user
-    public function post(){
+    public function account(){
         return $this->belongsTo(Account::class);
     }
 

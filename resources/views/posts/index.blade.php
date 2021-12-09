@@ -17,9 +17,9 @@
         <form method="GET" action={{ route('discover.posts.friends') }} }}>
             @csrf
             @if(Route::currentRouteName()=="discover.posts.friends")
-                <input type="submit" value="load friends" class="btn btn-dark btn-lg w-100 p-2">
+                <input type="submit" value="Friends Only" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
             @else
-                <input type="submit" value="load friends" class="btn btn-light btn-lg w-100 p-2">
+                <input type="submit" value="Friends Only" class="btn btn-light btn-lg w-100 p-2 border border-dark">
              @endif  
         </form>
     </div>
@@ -28,19 +28,45 @@
         <form method="GET" action={{ route('discover.posts.new') }} }}>
             @csrf
             @if(Route::currentRouteName()=="discover.posts.new")
-                <input type="submit" value="load new" class="btn btn-dark btn-lg w-100 p-2">
+                <input type="submit" value="New Accounts Only" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
             @else
-                <input type="submit" value="load new" class="btn btn-light btn-lg w-100 p-2">
+                <input type="submit" value="New Accounts Only" class="btn btn-light btn-lg w-100 p-2 border border-dark">
              @endif  
         </form>
     </div>
 @endsection
 
     @foreach ($posts as $post)
-        <br>
-        <li><a href={{ route('specific.post', ['post' => $post->id]) }}>{{$post->id}}</a></li>
-        <li>{{$post->content}}</li>
-        <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
+        <div class="row border border-dark bg-secondary bg-opacity-25">
+            <div class="row">
+                <a href={{ route('specific.post', ['post' => $post->id]) }}>
+                    <p class="text-center fw-normal">
+                        <input type="submit" value="{{$post->account->username}}">
+                    </p>
+                </a>
+            </div>
+            <div class="row">
+                <p>{{$post->content}}</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="text-center">Views: {{$post->views}}</p>
+                </div>  
+                <div class="col">
+                    <p class="text-center">Likes: {{$post->likes}}</p>
+                </div>  
+                <div class="col">
+                    <p class="text-center">Dislikes: {{$post->dislikes}}</p>
+                </div>  
+                <div class="col">
+                    @if ($post->image_path != null)
+                        <p class="text-center">Has an Image?: Yes</p>
+                    @else
+                        <p class="text-center">Has an Image?: No</p>
+                    @endif
+                </div>  
+            </div>
+        </div>
         <br>
     @endforeach
 

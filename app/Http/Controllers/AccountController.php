@@ -232,12 +232,12 @@ class AccountController extends Controller
 
         if($request->last_name != null)
         {
-            $a->first_name = $validated_account_changes['last_name'];;
+            $a->last_name = $validated_account_changes['last_name'];;
         }
 
         if($request->date_of_birth != null)
         {
-            $a->first_name = $validated_account_changes['date_of_birth'];
+            $a->date_of_birth = $validated_account_changes['date_of_birth'];
         }
         
         $a->save();

@@ -1,13 +1,52 @@
 @extends('layouts.posts')
 
 @section('title')
-    specific post
+    {{$post->account->username}}
 @endsection
 
 @section('content')
-    <li>{{$accounts->where('id', $post->account_id)->first()->username}} posted:</li>
-    <li>{{$post->content}}</li>
-    <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
+
+    <div class="row border border-dark bg-secondary bg-opacity-25">
+        <div class="row">
+            <p class="text-center fs-3">{{$post->account->username}}:</p>
+        </div>
+        @if ($post->image_path != null)
+            <div class="row">
+                <img src="{{ asset('images/'.$post->image_path) }}"/>
+            </div>
+        @endif
+        <div class="row">
+            <p class="text-center">{{$post->content}}</p>
+        </div>
+        <div class="row" id="data">
+            <div class="col">
+                <p class="text-center">Views: {{$post->views}}</p>
+            </div>  
+            <div class="col">
+                <p class="text-center">Likes: {{$post->likes}}</p>
+            </div>  
+            <div class="col">
+                <p class="text-center">Dislikes: {{$post->dislikes}}</p>
+            </div> 
+            <div class="col">
+                <p class="text-center">Comments: {{$comments->count()}}</p>
+            </div>   
+        </div>
+        <div class="row">
+            @if (auth()->user()->account->is_admin)
+                <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+                    @csrf
+                    <input type="submit" value="Silence as admin!" class="btn btn-danger btn-lg w-100 p-2 border border-dark">
+                </form>
+            @elseif (auth()->user()->account->id == $post->account_id)
+                <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+                    @csrf
+                    <input type="submit" value="Delete post" class="btn btn-danger btn-lg w-100 p-2 border border-dark">
+                </form>
+            @endif
+        </div>
+    </div>
+
 
     @if(auth()->user()->account->id != $post->account_id)
         <form method="POST" action={{ route('post.add_like', ['post' => $post->id]) }}>
@@ -30,8 +69,6 @@
 
         <p>Comment: <input type="text" id="input" v-model="newCommentContent"></p>
         <button @click="createComment">Create</button>
-
-
     </div>
 
     <script>
@@ -71,27 +108,4 @@
         })
     </script>
 
-    @if ($post->image_path != null)
-        <img src="{{ asset('images/'.$post->image_path) }}"/>
-    @endif
-
-    @foreach ($comments as $comment)
-        <li>{{$accounts->where('id', $comment->account_id)->first()->username}} commented:</a></li>
-        <li>{{$comment->content}}</li>
-        <br>
-    @endforeach
-
-    @if (auth()->user()->account->is_admin)
-        <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
-            @csrf
-            <input type="submit" value="Silence as admin!">
-        </form>
-    @elseif (auth()->user()->account->id == $post->account_id)
-        <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
-            @csrf
-            <input type="submit" value="Delete post">
-        </form>
-    @endif
-
-    <li><a href={{ route('discover.posts') }}>Back</a></li>
 @endsection

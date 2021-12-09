@@ -45,14 +45,14 @@
 
 
     <div class="row">
-        <div class="col-4 border border-dark">
+        <div class="col-5 border border-dark">
             @if ($account->image_path != null)
                 <img src="{{ asset('profile_pictures/'.$account->image_path) }}" class="img-thumbnail"/>
             @else
                 <img src="{{ asset('profile_pictures/K2Tcw7yRPoCblm8z5kKrRIugqjOuXM5EWvxqP5AO.png') }}" class="img-thumbnail"/>
             @endif
         </div>
-        <div class="col-6 border border-dark">
+        <div class="col-5 border border-dark">
             <div class="row">
                 <br>
             </div>
@@ -83,6 +83,16 @@
                 <br>
             </div>
             <div class="row">
+                @if($account->date_of_birth!=null)
+                    <p>DOB: {{$account->date_of_birth}}</p>
+                @else
+                    <p>No date of birth given</p>
+                @endif
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
                 <p>Amount of posts: {{$posts->count()}}</p>
             </div>
         </div>
@@ -90,9 +100,36 @@
     
     <br>
     @foreach ($posts as $post)
-        <li><a href={{ route('specific.post', ['post' => $post->id]) }}>{{$post->id}}</a></li>
-        <li>{{$post->content}}</li>
-        <li>Views: {{$post->views}} Likes: {{$post->likes}} Dislikes: {{$post->dislikes}}</li>
+        <div class="row border border-dark bg-secondary bg-opacity-25">
+            <div class="row">
+                <a href={{ route('specific.post', ['post' => $post->id]) }}>
+                    <p class="text-center fw-normal">
+                        <input type="submit" value="View Post">
+                    </p>
+                </a>
+            </div>
+            <div class="row">
+                <p>{{$post->content}}</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="text-center">Views: {{$post->views}}</p>
+                </div>  
+                <div class="col">
+                    <p class="text-center">Likes: {{$post->likes}}</p>
+                </div>  
+                <div class="col">
+                    <p class="text-center">Dislikes: {{$post->dislikes}}</p>
+                </div>  
+                <div class="col">
+                    @if ($post->image_path != null)
+                        <p class="text-center">Has an Image?: Yes</p>
+                    @else
+                        <p class="text-center">Has an Image?: No</p>
+                    @endif
+                </div>  
+            </div>
+        </div>
         <br>
     @endforeach
     
