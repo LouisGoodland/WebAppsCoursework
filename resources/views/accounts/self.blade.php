@@ -9,15 +9,26 @@
 
 @section('navigation')
 
-    <form method="GET" action={{ route('activity') }} }}>
-        @csrf
-        <input type="submit" value="Friends Only" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
-    </form>
+    <div class="col">
+        <form method="GET" action={{ route('activity') }} }}>
+            @csrf
+            <input type="submit" value="Activity" class="btn btn-info btn-lg w-100 p-2 border border-dark">
+        </form>
+    </div>
 
-    <form method="GET" action={{ route('edit.account') }} }}>
-        @csrf
-        <input type="submit" value="Friends Only" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
-    </form>
+    <div class="col">
+        <form method="GET" action={{ route('edit.account') }} }}>
+            @csrf
+            <input type="submit" value="Edit Account" class="btn btn-warning btn-lg w-100 p-2 border border-dark">
+        </form>
+    </div>
+
+    <div class="col">
+        <form method="GET" action={{ route('edit.account') }} }}>
+            @csrf
+            <input type="submit" value="Followers" class="btn btn-success btn-lg w-100 p-2 border border-dark">
+        </form>
+    </div>
     
 
 @endsection
