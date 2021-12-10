@@ -1,61 +1,148 @@
 @extends('layouts.posts')
 
 @section('title')   
-    all notifications
+    Notifications
 @endsection
 
 @section('content')
-    @foreach ($notifications as $notification)
-        <li>{{$notification->notification_text}}</li>
-        @if($notification->notifiable != null)
-            @if(get_class($notification->notifiable) == "App\Models\Friendship")
-                <li><a href={{ route('specific.account', ['account' => 
-                $accounts->where('id', 
-                    $friendships->where('id',
-                        $notification->notifiable_id)
-                        ->first()
-                    ->account_id_sender)
-                ->first()])}}>
-                Click here to view</a></li>
 
-            @else
+@section('navigation')
+    <div class="col">
+        <button class="btn btn-primary btn-lg w-100 p-2 border border-dark" type="button" data-bs-toggle="collapse"
+         data-bs-target="#posts" aria-expanded="false" aria-controls="followers">
+            Posts
+        </button>
+    </div>
 
-                @if(get_class($notification->notifiable) == "App\Models\Post")
-                    <li><a href={{ route('specific.post', ['post' =>
-                    $posts->where('id', 
-                        $notification->notifiable_id)
-                        ->first()
-                    ->first()])}}>
-                    View post</a></li>
+    <div class="col">
+        <button class="btn btn-primary btn-lg w-100 p-2 border border-dark" type="button" data-bs-toggle="collapse"
+         data-bs-target="#follows" aria-expanded="false" aria-controls="followers">
+            Followings
+        </button>
+    </div>
 
-                @elseif(get_class($notification->notifiable) == "App\Models\Comment")
-                    <li><a href={{ route('specific.post', ['post' =>
-                    $posts->where('id',
-                        $comments->where('id',
-                            $notification->notifiable_id)
-                            ->first()
-                        ->post_id)
-                    ->first()])}}>
-                    View posts</a></li>
-                
-                @elseif(get_class($notification->notifiable) == "App\Models\AccountPostInteraction")
-                    <li><a href={{ route('specific.post', ['post' =>
-                    $posts->where('id',
-                        $account_post_interactions->where('id',
-                            $notification->notifiable_id)
-                            ->first()
-                        ->post_id)
-                    ->first()])}}>
-                    View</a></li>
+    <div class="col">
+        <button class="btn btn-primary btn-lg w-100 p-2 border border-dark" type="button" data-bs-toggle="collapse"
+         data-bs-target="#comments" aria-expanded="false" aria-controls="followers">
+            Comments
+        </button>
+    </div>
 
-                @endif
-                
+    <div class="col">
+        <button class="btn btn-primary btn-lg w-100 p-2 border border-dark" type="button" data-bs-toggle="collapse"
+         data-bs-target="#interactions" aria-expanded="false" aria-controls="followers">
+            Interactions
+        </button>
+    </div>
 
-            @endif
+@endsection
 
+    <h3 class="text-center">Posts:</h3>
+    <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
+        <div class="collapse" id="posts">
+            <div class="card card-body">
+                @foreach ($notifications_post as $notification)
 
-        @endif
-        
-        <br>
-    @endforeach
+                    <div class="row">
+                        <div class="col-4">
+                            @if(Route::currentRouteName()=="admin.notifications")
+                                <p>Notification for: {{$notification->account->username}}</p>
+                            @endif
+                        </div>
+
+                        <div class="col-8">
+                            <a href={{ route('specific.post', ['post' => $notification->notifiable->id]) }}>
+                                <p>
+                                    <input type="submit" value="New post by: {{$notification->notifiable->account->username}}">
+                                </p>
+                            </a>    
+                        </div>
+                    </div>
+
+                @endforeach  
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-center">Follows:</h3>
+    <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
+        <div class="collapse" id="follows">
+            <div class="card card-body">
+                @foreach ($notifications_friendship as $notification)
+
+                    <div class="row">
+                        <div class="col-4">
+                            @if(Route::currentRouteName()=="admin.notifications")
+                                <p>Notification for: {{$notification->account->username}}</p>
+                            @endif
+                        </div>
+
+                        <div class="col-8">
+                            <a href={{ route('specific.account', ['account' => $notification->notifiable->account->id]) }}>
+                                <p>
+                                    <input type="submit" value="Followed by: {{$notification->notifiable->account->username}}">
+                                </p>
+                            </a>  
+                        </div>
+                    </div>
+
+                @endforeach  
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-center">Comments:</h3>
+    <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
+        <div class="collapse" id="comments">
+            <div class="card card-body">
+                @foreach ($notifications_comment as $notification)
+
+                    <div class="row">
+                        <div class="col-4">
+                            @if(Route::currentRouteName()=="admin.notifications")
+                                <p>Notification for: {{$notification->account->username}}</p>
+                            @endif
+                        </div>
+
+                        <div class="col-8">
+                            <a href={{ route('specific.post', ['post' => $notification->notifiable->post->id]) }}>
+                                <p>
+                                    <input type="submit" value="Comment by: {{$notification->notifiable->account->username}}">
+                                </p>
+                            </a>    
+                        </div>
+                    </div>
+
+                @endforeach  
+            </div>
+        </div>
+    </div>
+
+    <h3 class="text-center">Interactions:</h3>
+    <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
+        <div class="collapse" id="interactions">
+            <div class="card card-body">
+                @foreach ($notifications_interaction as $notification)
+
+                    <div class="row">
+                        <div class="col-4">
+                            @if(Route::currentRouteName()=="admin.notifications")
+                                <p>Notification for: {{$notification->account->username}}</p>
+                            @endif
+                        </div>
+
+                        <div class="col-8">
+                            <a href={{ route('specific.post', ['post' => $notification->notifiable->id]) }}>
+                                <p>
+                                    <input type="submit" value="{{$notification->notifiable->type}} By: {{$notification->notifiable->account->username}}">
+                                </p>
+                            </a>    
+                        </div>
+                    </div>
+
+                @endforeach  
+            </div>
+        </div>
+    </div>
+
 @endsection

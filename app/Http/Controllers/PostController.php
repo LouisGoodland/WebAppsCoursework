@@ -90,8 +90,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //dd($request->user('api')->account->id);
-        $user = route('/api/user');
-        dd($user);
+        //$user = route('/api/user');
+        //dd($user);
 
         //change required later
         $validated_post = $request->validate([
@@ -209,7 +209,6 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //Need to do some authorisation here
         if(auth()->user()->account->id == $post->account_id)
         {
             return view('posts.edit', ['post' => $post]);

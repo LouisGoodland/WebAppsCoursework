@@ -14,4 +14,9 @@ class Notification extends Model
     {
         return $this->morphTo();
     }
+
+    public function account(){
+        return $this->belongsTo(Account::class);
+    }
+    
 }

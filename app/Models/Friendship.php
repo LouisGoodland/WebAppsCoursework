@@ -10,8 +10,8 @@ class Friendship extends Model
     use HasFactory;
 
     //a friendship is created by a user
-    public function friendship(){
-        return $this->belongsTo(Account::class);
+    public function account(){
+        return $this->belongsTo(Account::class, 'account_id_sender');
     }
 
     //a friendship potentially has multiple notifications

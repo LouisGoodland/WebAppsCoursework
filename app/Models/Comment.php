@@ -10,8 +10,13 @@ class Comment extends Model
     use HasFactory;
 
     //A comment belongs to a user
-    public function comment(){
+    public function account(){
         return $this->belongsTo(Account::class);
+    }
+
+    //a comment belongs to a post
+    public function post(){
+        return $this->belongsTo(Post::class);
     }
 
     //a comment potentially has multiple notifications

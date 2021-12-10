@@ -22,13 +22,26 @@ class NotificationController extends Controller
     {
         if(auth()->user()->account->is_admin)
         {
-            return view('notifications.index', [
-            'accounts' => Account::all(),
-            'posts' => Post::all(),
-            'comments' => Comment::all(),
-            'friendships' => Friendship::all(),
-            'notifications' => Notification::all(),
-            'account_post_interactions' => AccountPostInteraction::all()]);
+            $notifications_post = Notification::all()
+            ->where('notifiable_type', "App\Models\Post");
+            //dd($notifications_post);
+
+            $notifications_friendship = Notification::all()
+            ->where('notifiable_type', "App\Models\Friendship");
+            
+
+            $notifications_comment = Notification::all()
+            ->where('notifiable_type', "App\Models\Comment");
+
+            $notifications_interaction = Notification::all()
+            ->where('notifiable_type', "App\Models\AccountPostInteraction");
+            
+            return view('notifications.index', 
+            ['notifications_post' => $notifications_post,
+            'notifications_friendship' => $notifications_friendship,
+            'notifications_comment' => $notifications_comment,
+            'notifications_interaction' => $notifications_interaction]);
+
         } 
         else
         {
@@ -36,26 +49,6 @@ class NotificationController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -65,10 +58,27 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        $notifications = Notification::all()
-        ->where('account_id', auth()->user()->account->id);
+        $notifications_post = Notification::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('notifiable_type', "App\Models\Post");;
+
+        $notifications_friendship = Notification::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('notifiable_type', "App\Models\Friendship");
+
+        $notifications_comment = Notification::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('notifiable_type', "App\Models\Comment");
+
+        $notifications_interaction = Notification::all()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('notifiable_type', "App\Models\AccountPostInteraction");
         
-        return view('notifications.index', ['notifications' => $notifications]);
+        return view('notifications.index', 
+        ['notifications_post' => $notifications_post,
+        'notifications_friendship' => $notifications_friendship,
+        'notifications_comment' => $notifications_comment,
+        'notifications_interaction' => $notifications_interaction]);
     }
 
     /**

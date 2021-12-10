@@ -89,7 +89,7 @@ class FriendshipController extends Controller
         $f->save();
 
         //makes a notification for the post produced
-        Notification::factory()->createNotifications($f);
+        Notification::factory()->createFriendNotification($f);
 
         session()->flash('message', 'added a friend');
         return redirect(route('specific.account', ["account" => $account]));
