@@ -81,4 +81,6 @@
         @endif
         <br>
     @endforeach
+
+    {{$accounts->links('pagination::bootstrap-4')}}
 @endsection

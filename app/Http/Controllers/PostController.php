@@ -57,15 +57,8 @@ class PostController extends Controller
 
     public function show_all($is_viewing_new, $posts_to_remove)
     {
-        $posts = Post::with('account')
-        ->whereNotIn('id', $posts_to_remove)->get();
-        //
-        $test = Post::all()->whereNotIn('id', $posts_to_remove);
-        //dd($posts);
-
-        //gets all of the accounts of posts
-        //$accounts = Account::all()
-        //->whereIn('id', $posts->pluck('account_id'));
+        $posts = Post::whereNotIn('id', $posts_to_remove)
+        ->paginate(5);
 
         return view('posts.index', ['posts' => $posts, 
         'is_viewing_new' => $is_viewing_new,]);

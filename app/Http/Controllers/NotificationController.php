@@ -22,25 +22,23 @@ class NotificationController extends Controller
     {
         if(auth()->user()->account->is_admin)
         {
-            $notifications_post = Notification::all()
-            ->where('notifiable_type', "App\Models\Post");
-            //dd($notifications_post);
-
-            $notifications_friendship = Notification::all()
-            ->where('notifiable_type', "App\Models\Friendship");
-            
-
-            $notifications_comment = Notification::all()
-            ->where('notifiable_type', "App\Models\Comment");
-
-            $notifications_interaction = Notification::all()
-            ->where('notifiable_type', "App\Models\AccountPostInteraction");
+            $post_notifications = Notification::all()->
+            where('notifiable_type', "App\Models\Post");
+    
+            $friendship_notifications = Notification::all()->
+            where('notifiable_type', "App\Models\Friendship");
+    
+            $comment_notifications = Notification::all()->
+            where('notifiable_type', "App\Models\Comment");
+    
+            $interaction_notifications = Notification::all()->
+            where('notifiable_type', "App\Models\AccountPostInteraction");
             
             return view('notifications.index', 
-            ['notifications_post' => $notifications_post,
-            'notifications_friendship' => $notifications_friendship,
-            'notifications_comment' => $notifications_comment,
-            'notifications_interaction' => $notifications_interaction]);
+            ['post_notifications' => $post_notifications,
+            'friendship_notifications' => $friendship_notifications,
+            'comment_notifications' => $comment_notifications,
+            'interaction_notifications' => $interaction_notifications]);
 
         } 
         else
@@ -58,27 +56,27 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        $notifications_post = Notification::all()
-        ->where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\Post");;
+        $post_notifications = Notification::all()->
+        where('account_id', auth()->user()->account->id)
+        ->where('notifiable_type', "App\Models\Post");
 
-        $notifications_friendship = Notification::all()
-        ->where('account_id', auth()->user()->account->id)
+        $friendship_notifications = Notification::all()->
+        where('account_id', auth()->user()->account->id)
         ->where('notifiable_type', "App\Models\Friendship");
 
-        $notifications_comment = Notification::all()
-        ->where('account_id', auth()->user()->account->id)
+        $comment_notifications = Notification::all()->
+        where('account_id', auth()->user()->account->id)
         ->where('notifiable_type', "App\Models\Comment");
 
-        $notifications_interaction = Notification::all()
-        ->where('account_id', auth()->user()->account->id)
+        $interaction_notifications = Notification::all()->
+        where('account_id', auth()->user()->account->id)
         ->where('notifiable_type', "App\Models\AccountPostInteraction");
         
         return view('notifications.index', 
-        ['notifications_post' => $notifications_post,
-        'notifications_friendship' => $notifications_friendship,
-        'notifications_comment' => $notifications_comment,
-        'notifications_interaction' => $notifications_interaction]);
+        ['post_notifications' => $post_notifications,
+        'friendship_notifications' => $friendship_notifications,
+        'comment_notifications' => $comment_notifications,
+        'interaction_notifications' => $interaction_notifications]);
     }
 
     /**

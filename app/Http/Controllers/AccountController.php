@@ -16,6 +16,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $accounts_to_remove = Account::all()->where('id', auth()->user()->account->id)
@@ -48,9 +49,8 @@ class AccountController extends Controller
 
     public function show_all($is_viewing_new, $accounts_to_remove)
     {
-        $accounts = Account::all()
-        ->whereNotIn('id', auth()->user()->account->id)
-        ->whereNotIn('id', $accounts_to_remove);
+        $accounts = Account::where('id', '<>', auth()->user()->account->id)
+        ->whereNotIn('id', $accounts_to_remove)->paginate(5);
 
         //sends relevant posts over
         $posts = Post::all()->whereIn('account_id', $accounts->pluck('id'));
@@ -68,7 +68,6 @@ class AccountController extends Controller
         'friends_reciever' => $friends_reciever,
         'friends_sender' => $friends_sender]);
     }
-
 
     /**
      * Show the form for creating a new resource.

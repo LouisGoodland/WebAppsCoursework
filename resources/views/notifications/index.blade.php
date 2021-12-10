@@ -41,25 +41,26 @@
     <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
         <div class="collapse" id="posts">
             <div class="card card-body">
-                @foreach ($notifications_post as $notification)
+                @foreach ($post_notifications as $post_notification)
 
                     <div class="row">
                         <div class="col-4">
                             @if(Route::currentRouteName()=="admin.notifications")
-                                <p>Notification for: {{$notification->account->username}}</p>
+                                <p>Notification for: {{$post_notification->account->username}}</p>
                             @endif
                         </div>
 
                         <div class="col-8">
-                            <a href={{ route('specific.post', ['post' => $notification->notifiable->id]) }}>
+                            <a href={{ route('specific.post', ['post' => $post_notification->notifiable->id]) }}>
                                 <p>
-                                    <input type="submit" value="New post by: {{$notification->notifiable->account->username}}">
+                                    <input type="submit" value="New post by: {{$post_notification->notifiable->account->username}}">
                                 </p>
                             </a>    
                         </div>
                     </div>
 
                 @endforeach  
+                
             </div>
         </div>
     </div>
@@ -68,19 +69,19 @@
     <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
         <div class="collapse" id="follows">
             <div class="card card-body">
-                @foreach ($notifications_friendship as $notification)
+                @foreach ($friendship_notifications as $friendship_notification)
 
                     <div class="row">
                         <div class="col-4">
                             @if(Route::currentRouteName()=="admin.notifications")
-                                <p>Notification for: {{$notification->account->username}}</p>
+                                <p>Notification for: {{$friendship_notification->account->username}}</p>
                             @endif
                         </div>
 
                         <div class="col-8">
-                            <a href={{ route('specific.account', ['account' => $notification->notifiable->account->id]) }}>
+                            <a href={{ route('specific.account', ['account' => $friendship_notification->notifiable->account->id]) }}>
                                 <p>
-                                    <input type="submit" value="Followed by: {{$notification->notifiable->account->username}}">
+                                    <input type="submit" value="Followed by: {{$friendship_notification->notifiable->account->username}}">
                                 </p>
                             </a>  
                         </div>
@@ -95,19 +96,19 @@
     <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
         <div class="collapse" id="comments">
             <div class="card card-body">
-                @foreach ($notifications_comment as $notification)
+                @foreach ($comment_notifications as $comment_notification)
 
                     <div class="row">
                         <div class="col-4">
                             @if(Route::currentRouteName()=="admin.notifications")
-                                <p>Notification for: {{$notification->account->username}}</p>
+                                <p>Notification for: {{$comment_notification->account->username}}</p>
                             @endif
                         </div>
 
                         <div class="col-8">
-                            <a href={{ route('specific.post', ['post' => $notification->notifiable->post->id]) }}>
+                            <a href={{ route('specific.post', ['post' => $comment_notification->notifiable->post->id]) }}>
                                 <p>
-                                    <input type="submit" value="Comment by: {{$notification->notifiable->account->username}}">
+                                    <input type="submit" value="Comment by: {{$comment_notification->notifiable->account->username}}">
                                 </p>
                             </a>    
                         </div>
@@ -122,19 +123,19 @@
     <div class="row border border-2 border-dark bg-secondary bg-opacity-25">
         <div class="collapse" id="interactions">
             <div class="card card-body">
-                @foreach ($notifications_interaction as $notification)
+                @foreach ($interaction_notifications as $interaction_notification)
 
                     <div class="row">
                         <div class="col-4">
                             @if(Route::currentRouteName()=="admin.notifications")
-                                <p>Notification for: {{$notification->account->username}}</p>
+                                <p>Notification for: {{$interaction_notification->account->username}}</p>
                             @endif
                         </div>
 
                         <div class="col-8">
-                            <a href={{ route('specific.post', ['post' => $notification->notifiable->account->id]) }}>
+                            <a href={{ route('specific.post', ['post' => $interaction_notification->notifiable->account->id]) }}>
                                 <p>
-                                    <input type="submit" value="{{$notification->notifiable->type}} By: {{$notification->notifiable->account->username}}">
+                                    <input type="submit" value="{{$interaction_notification->notifiable->type}} By: {{$interaction_notification->notifiable->account->username}}">
                                 </p>
                             </a>    
                         </div>

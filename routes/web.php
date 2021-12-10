@@ -40,6 +40,11 @@ Route::get('/accounts/{account}', [AccountController::class, 'show'])
 ->name("specific.account")->middleware('auth');
 Route::get('/posts/{post}', [PostController::class, 'show'])
 ->name("specific.post")->middleware('auth');
+//Routes for editing comments on an account MAYBE DELETE?????????????
+Route::get('/posts/{post}/{comment}', [CommentController::class, 'edit'])
+->name("comment.post")->middleware('auth');
+Route::post('/posts/{post}/{comment}', [CommentController::class, 'update'])
+->name("comment.post.update")->middleware('auth');
 
 //for commenting on a post
 //Route::post('/posts/{post}/commenting', [CommentController::class, 'store'])
