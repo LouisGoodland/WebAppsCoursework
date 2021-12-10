@@ -234,10 +234,22 @@ class PostController extends Controller
         if(auth()->user()->account->id == $post->account_id)
         {
             $validated_post_change = $request->validate([
-                'content' => 'required',
+                'image' => 'mimes:jpeg,bmp,png,jpg|max:81920',
+                'content' => 'max:9999999999999999999999999'
             ]);
-            
-            $post->content = $validated_post_change['content'];
+    
+            if($request->content != null)
+            {
+                $post->content = $validated_post_change['content'];
+            }
+    
+            if($request->image != null)
+            {
+                $newImageName = $request->image->hashName();
+                $request->image->move(public_path('images'), $newImageName);
+                $post->image_path = $newImageName;
+            }
+
             $post->save();
         }
         return redirect(route('discover.posts'));

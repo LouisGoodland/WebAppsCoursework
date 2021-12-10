@@ -1,18 +1,22 @@
 @extends('layouts.posts')
 
 @section('title')
-    edit post
+    Edit post
 @endsection
 
 @section('content')
-    <form method="POST" action={{ route('update.post', ['post' => $post]) }}>
+
+    <form method="POST" action={{ route('update.post', ['post' => $post]) }} enctype="multipart/form-data">
         @csrf
-        <p>Content: <input type="text" name="content"
-        value="{{ old('content') }}"></p>
-        <input type="submit" value="Submit">
-    </form>
-    <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
-        @csrf
-        <input type="submit" value="Delete">
-    </form>
+        <input type="file" name="image" class="position-relative top-50 start-50 translate-middle">
+        <br>
+        <br>
+        <br>
+        <input type="text" name="content" class="position-relative top-50 start-50 translate-middle"
+        value={{old('content')}}>
+        <br>
+        <br>
+        <input type="submit" value="Submit" class="position-relative top-50 start-50 translate-middle">
+    </form>     
+
 @endsection

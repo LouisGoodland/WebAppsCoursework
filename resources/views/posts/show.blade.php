@@ -33,17 +33,28 @@
             </div>   
         </div>
         <div class="row">
-            @if (auth()->user()->account->is_admin)
-                <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
-                    @csrf
-                    <input type="submit" value="Silence as admin!" class="btn btn-danger btn-lg w-100 p-2 border border-dark">
-                </form>
-            @elseif (auth()->user()->account->id == $post->account_id)
-                <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
-                    @csrf
-                    <input type="submit" value="Delete post" class="btn btn-danger btn-lg w-100 p-2 border border-dark">
-                </form>
-            @endif
+            <div class="col">
+                @if (auth()->user()->account->is_admin)
+                    <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+                        @csrf
+                        <input type="submit" value="Silence as admin!" class="btn btn-danger btn-lg w-100 p-2 border border-dark">
+                    </form>
+                @elseif (auth()->user()->account->id == $post->account_id)
+                    <form method="POST" action={{ route('destroy.post', ['post' => $post]) }}>
+                        @csrf
+                        <input type="submit" value="Delete post" class="btn btn-danger btn-lg w-100 p-2 border border-dark">
+                    </form>
+                @endif
+            </div>
+            <div class="col">
+                @if (auth()->user()->account->id == $post->account_id)
+                    <form method="GET" action={{ route('edit.post', ['post' => $post]) }}>
+                        @csrf
+                        <input type="submit" value="Edit post" class="btn btn-primary btn-lg w-100 p-2 border border-dark">
+                    </form>
+                @endif
+            </div>
+
         </div>
     </div>
 
