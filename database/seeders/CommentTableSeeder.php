@@ -21,7 +21,7 @@ class CommentTableSeeder extends Seeder
         while($production_count < $amount_of_comments_to_produce){
             //Make a comment and it's notification
             $produced_comment = Comment::factory()->create();
-            Notification::factory()->createNotifications($produced_comment);
+            Notification::factory()->createCommentNotification($produced_comment);
             //increase the amount produced count
             $production_count = $production_count + 1;
         }

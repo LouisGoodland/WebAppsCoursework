@@ -165,6 +165,9 @@ class PostController extends Controller
         $interaction->post_id = $post->id;
         $interaction->type = $type;
         $interaction->save();
+
+        Notification::factory()->createInteractionNotification($interaction);
+
     }
 
     /**

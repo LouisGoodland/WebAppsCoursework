@@ -132,7 +132,7 @@
                         </div>
 
                         <div class="col-8">
-                            <a href={{ route('specific.post', ['post' => $notification->notifiable->id]) }}>
+                            <a href={{ route('specific.post', ['post' => $notification->notifiable->account->id]) }}>
                                 <p>
                                     <input type="submit" value="{{$notification->notifiable->type}} By: {{$notification->notifiable->account->username}}">
                                 </p>

@@ -59,6 +59,19 @@ class NotificationFactory extends Factory
             Account::where('id', $notifiyingObject->account_id)->first()->username]);
         }
     }
+
+    public function createCommentNotification($notifiyingObject){
+        //Only one notification created, assigns the attributes based on the friend request
+        Notification::factory()->create([
+            'notifiable_id' => $notifiyingObject->id,
+            'notifiable_type' => get_class($notifiyingObject), 
+            'account_id' => $notifiyingObject->post->account_id,
+            //Notification text encorperates all the assigned attributes into a message
+            'notification_text' => "Notification for ".
+            $notifiyingObject->post->account->username." 
+            caused by: a comment on your post from ".
+            $notifiyingObject->account->username]);
+    }
     
     
 
