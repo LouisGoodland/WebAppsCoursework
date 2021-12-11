@@ -60,7 +60,12 @@
             <div class="row">
                 <div class="col">
                     @if(auth()->user()->account->id != $post->account_id)
-                        <button @click="addLike">Like</button>
+                        <button @click="addLike" class="btn btn-success position-relative top-50 start-50 translate-middle">Like</button>
+                    @endif
+                </div>
+                <div class="col">
+                    @if(auth()->user()->account->id != $post->account_id)
+                        <button @click="addDislike" class="btn btn-danger position-relative top-50 start-50 translate-middle">Dislike</button>
                     @endif
                 </div>
             </div>
@@ -91,6 +96,16 @@
                     {})
                     .then(response => {
                         this.likes = response.data
+                    })
+                    .catch(response => {
+                        console.log(response);
+                    })
+                },
+                addDislike: function(){
+                    axios.post("{{ route('api.specific.post.dislike', ['post' => $post]) }}",
+                    {})
+                    .then(response => {
+                        this.dislikes = response.data
                     })
                     .catch(response => {
                         console.log(response);

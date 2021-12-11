@@ -28,7 +28,8 @@ Route::get('/posts/{post}', [PostController::class, 'post_attributes'])
 
 Route::post('/posts/{post}/like', [PostController::class, 'api_like'])
 ->name("api.specific.post.like")->middleware('auth');
-
+Route::post('/posts/{post}/dislike', [PostController::class, 'api_like'])
+->name("api.specific.post.dislike")->middleware('auth');
 
 
 
