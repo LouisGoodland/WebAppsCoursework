@@ -26,6 +26,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/posts/{post}', [PostController::class, 'post_attributes'])
 ->name("api.specific.post")->middleware('auth');
 
+Route::post('/posts/{post}/like', [PostController::class, 'api_like'])
+->name("api.specific.post.like")->middleware('auth');
+
 
 
 

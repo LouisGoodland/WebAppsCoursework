@@ -157,6 +157,14 @@ class PostController extends Controller
         return [$refreshed_post->views, $refreshed_post->likes, $refreshed_post->dislikes];
     }
 
+    public function api_like(Post $post)
+    {
+        $post->likes = $post->likes + 1;
+        $post->save();
+
+        return $post->likes;
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -21,7 +21,6 @@
 
         
         <div id="attributes">
-            <p>@{{comments}}</p>
             <div class="row">
                 <div class="col">
                     <p class="text-center">Views: @{{ views }}</p>
@@ -56,11 +55,14 @@
                     @endif
                 </div>
             </div>
-        </div>
+        
 
-        <div class="row">
-            <div class="col">
-                test
+            <div class="row">
+                <div class="col">
+                    @if(auth()->user()->account->id != $post->account_id)
+                        <button @click="addLike">Like</button>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -74,6 +76,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
     <script>
         var app = new Vue({
             el: "#attributes",
@@ -82,10 +85,21 @@
                 likes: 0,
                 dislikes: 0,
             },
+            methods: {
+                addLike: function(){
+                    axios.post("{{ route('api.specific.post.like', ['post' => $post]) }}",
+                    {})
+                    .then(response => {
+                        this.likes = response.data
+                    })
+                    .catch(response => {
+                        console.log(response);
+                    })
+                }
+            },
             mounted() {
                 axios.get("{{ route('api.specific.post', ['post' => $post]) }}")
                 .then( response => {
-                    console.log("here");
                     this.views = response.data[0]
                     this.likes = response.data[1]
                     this.dislikes = response.data[2]
