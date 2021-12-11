@@ -62,15 +62,15 @@ class NotificationController extends Controller
 
         $friendship_notifications = Notification::all()->
         where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\Friendship");
+        ->where('notifiable_type', "App\Models\Friendship")->reverse();
 
         $comment_notifications = Notification::all()->
         where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\Comment");
+        ->where('notifiable_type', "App\Models\Comment")->reverse();
 
         $interaction_notifications = Notification::all()->
         where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\AccountPostInteraction");
+        ->where('notifiable_type', "App\Models\AccountPostInteraction")->reverse();
         
         return view('notifications.index', 
         ['post_notifications' => $post_notifications,
