@@ -159,7 +159,33 @@ class PostController extends Controller
 
     public function api_like(Post $post)
     {
-        $post->likes = $post->likes + 1;
+        $check = AccountPostInteraction::get()
+        ->where('account_id', auth()->user()->account->id)
+        ->where('post_id', $post->id)->first();
+
+        if($check != null)
+        {
+            $post->likes = $post->likes - 1;
+
+            //tries to delete the notification as well
+            $notification = Notification::get()
+            ->where('notifiable_id', $check->id)
+            ->where('notifiable_type', get_class($check))
+            ->first();
+
+            if($notification != null)
+            {
+                $notification->delete();
+            }
+
+            //deletes the like interaction 
+            $check->delete();
+            
+        } else {
+            $post->likes = $post->likes + 1;
+            app('App\Http\Controllers\PostController')->produceInteraction($post, "like");
+        }
+
         $post->save();
 
         return $post->likes;
