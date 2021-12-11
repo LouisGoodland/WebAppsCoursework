@@ -53,24 +53,6 @@ class CommentController extends Controller
         return $a;
     }
 
-    public function apiStore(Request $request, Post $post)
-    {
-        $verified_data = $request->validate([
-            'content' => 'required',
-        ]);
-        
-        $user = route('/api/user');
-
-        $c = new Comment;
-        $c->account_id = $request->user('api')->account->id;
-        $c->post_id = $post->id;
-        $c->content = $verified_data['content'];
-
-        $c->save();
-        session()->flash('message', 'posted');
-        return $c;
-    }
-
     /**
      * Display the specified resource.
      *

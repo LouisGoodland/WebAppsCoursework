@@ -23,17 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/posts/{post}/commenting', [CommentController::class, 'apiStore'])
-->name("api.comment.post")->middleware('auth:sanctum');
+Route::get('/posts/{post}', [PostController::class, 'post_attributes'])
+->name("api.specific.post")->middleware('auth');
 
-Route::get('/posts/{post}', [PostController::class, 'apiShow'])
-->name("api.specific.post")->middleware('auth:sanctum');
 
-//Route::get('/my_account/notifications', [NotificationController::class, 'show'])
-//->name("notifications")->middleware('auth');
 
-Route::get('/posts/{post}', [PostController::class, 'apiShow'])
-->name("api.specific.post")->middleware('auth:sanctum');
 
 
 

@@ -82,9 +82,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->user('api')->account->id);
-        //$user = route('/api/user');
-        //dd($user);
 
         //change required later
         $validated_post = $request->validate([
@@ -112,42 +109,6 @@ class PostController extends Controller
 
         session()->flash('message', 'uploaded');
         return redirect(route('discover.posts'));
-    }
-
-
-
-    public function add_like(Post $post)
-    {
-
-        $check = AccountPostInteraction::get()
-        ->where('account_id', auth()->user()->account->id)
-        ->where('post_id', $post->id)->first();
-
-        if($check != null)
-        {
-            $post->likes = $post->likes - 1;
-            $post->delete();
-        } else {
-            $post->likes = $post->likes + 1;
-            app('App\Http\Controllers\PostController')->produceInteraction($post, "like");
-        }
-
-        $post->save();
-
-        return app('App\Http\Controllers\PostController')->show_part2($post);
-    }
-
-
-
-    public function add_dislike(Post $post)
-    {
-        $post->dislikes = $post->dislikes + 1;
-        $post->save();
-        
-        //Creates an interaction
-        app('App\Http\Controllers\PostController')->produceInteraction($post, "dislike");
-
-        return app('App\Http\Controllers\PostController')->show_part2($post);
     }
 
     //produces a new interaction
@@ -190,12 +151,12 @@ class PostController extends Controller
                     'accounts' => $accounts]);
     }
 
-    public function apiShow(Post $Post)
+    public function post_attributes(Post $post)
     {
-        //$comments = Comment::all()->where('post_id', $post->id)->get();
-        $comments = Comment::all();
-        return $comments;
+        $refreshed_post = Post::where('id', $post->id)->first();
+        return [$refreshed_post->views, $refreshed_post->likes, $refreshed_post->dislikes];
     }
+
 
     /**
      * Show the form for editing the specified resource.

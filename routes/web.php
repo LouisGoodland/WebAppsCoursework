@@ -40,15 +40,6 @@ Route::get('/accounts/{account}', [AccountController::class, 'show'])
 ->name("specific.account")->middleware('auth');
 Route::get('/posts/{post}', [PostController::class, 'show'])
 ->name("specific.post")->middleware('auth');
-//Routes for editing comments on an account MAYBE DELETE?????????????
-Route::get('/posts/{post}/{comment}', [CommentController::class, 'edit'])
-->name("comment.post")->middleware('auth');
-Route::post('/posts/{post}/{comment}', [CommentController::class, 'update'])
-->name("comment.post.update")->middleware('auth');
-
-//for commenting on a post
-//Route::post('/posts/{post}/commenting', [CommentController::class, 'store'])
-//->name("comment.post")->middleware('auth');
 
 //for viewing own account details
 Route::get('/my_account', [AccountController::class, 'show_self'])
@@ -65,12 +56,6 @@ Route::post('/my_account/edit/update', [AccountController::class, 'update'])
 //shows all the user friends
 Route::get('/my_account/friendships', [FriendshipController::class, 'index'])
 ->name("friends")->middleware('auth');
-
-//Routes for adding likes and dislikes
-Route::post('/posts/{post}/adding_like', [PostController::class, 'add_like'])
-->name("post.add_like")->middleware('auth');
-Route::post('/posts/{post}/adding_dislike', [PostController::class, 'add_dislike'])
-->name("post.add_dislike")->middleware('auth');
 
 //for creating a new post
 Route::get('/create_post', [PostController::class, 'create'])
