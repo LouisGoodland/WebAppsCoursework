@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Account;
+use App\Models\Friendship;
 use App\Models\Notification;
+use App\Models\AccountPostInteraction;
 
 use Illuminate\Http\Request;
 
@@ -60,11 +63,9 @@ class CommentController extends Controller
      */
     public function api_show(Post $post)
     {
-        //dd("here");
-        //$comments = Comment::all()->where('post_id', $post->id);
-        //return $comments->count();
-        $refreshed_post = Post::where('id', $post->id)->first();
-        return [$refreshed_post->views, $refreshed_post->likes, $refreshed_post->dislikes];
+        $comments = Comment::all()->where('post_id', $post->id);
+        return $comments;
+
     }
 
     public function api_store(Post $post, Request $request)
@@ -80,9 +81,10 @@ class CommentController extends Controller
         $a->content = $verified_data['content'];
         $a->save();
 
-        Notification::factory()->createCommentNotification($produced_comment);
-
-        return [$a->pluck("content")]
+        Notification::factory()->createCommentNotification($a);
+        
+        $comments = Comment::all()->where('post_id', $post->id);
+        return $comments;
     }
 
     /**

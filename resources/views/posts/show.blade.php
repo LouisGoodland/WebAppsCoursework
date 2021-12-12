@@ -77,6 +77,15 @@
 
 
     <div class="row" id="comments">
+        <div class="row">
+            <div class="row">
+                <input type="text" id="input" v-model="content"
+                 name="content" class="position-relative top-50 start-50 translate-middle">
+            </div>
+            <div class="row">
+                <button @click="addComment">Submit!</button>
+            </div>
+        </div>
         <div v-for="comment in comments" class="row border border-dark bg-secondary bg-opacity-10">
             @{{comment}}
         </div>
@@ -139,7 +148,33 @@
         var app = new Vue({
             el: "#comments",
             data: {
-                comments: ["test1", "test2"],
+                comments: [],
+                content: "",
+            },
+            methods: {
+                addComment: function(){
+                    axios.post("{{ route('api.specific.post.create.comments', ['post' => $post]) }}",
+                    {
+                        content: this.content
+                    })
+                    .then(response => {
+                        this.comments = response.data
+                        this.content = ""
+                    })
+                    .catch(response => {
+                        console.log(response);
+                    })
+                },
+            },
+            mounted() {
+                axios.get("{{ route('api.specific.post.comments', ['post' => $post]) }}")
+                .then( response => {
+                    console.log(response);
+                    this.comments = response.data
+                })
+                .catch(response => {
+                    console.log(response);
+                })
             },
         })
     </script>
