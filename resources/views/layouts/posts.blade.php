@@ -93,7 +93,13 @@
                 </a>
             @else
                 <a href= {{ route("notifications") }}>
-                    <input type="submit" value="Notifications" class="btn btn-light btn-lg w-100 p-2">
+                    <input type="submit" class="btn btn-light btn-lg w-100 p-2"
+                    value="Notifications"> 
+                        <span class="position-relative top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{auth()->user()->account->notifications->count()}}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </input>
                 </a>
             @endif
         </div> 

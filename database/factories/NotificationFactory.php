@@ -9,6 +9,8 @@ use App\Models\Friendship;
 use App\Models\Post;
 use App\Models\Account;
 
+use App\Notifications\NewReplyAdded;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NotificationFactory extends Factory
@@ -47,7 +49,7 @@ class NotificationFactory extends Factory
         //for each account that needs notifying
         foreach($accounts_to_notify as $notified_account_id){
             //create a notification, setting the attributes based on the object
-            Notification::factory()->create([
+            $n = Notification::factory()->create([
             'notifiable_id' => $notifiyingObject->id,
             'notifiable_type' => get_class($notifiyingObject), 
             //The id of the account that will get notified
@@ -57,7 +59,12 @@ class NotificationFactory extends Factory
             Account::where('id', $notified_account_id)->first()->username." 
             caused by: ".get_class($notifiyingObject). " from ".
             Account::where('id', $notifiyingObject->account_id)->first()->username]);
+
+            //$notify = Account::where('id', $notified_account_id)->first();
+            //$notify->user->notify(new NewReplyAdded($n));
         }
+
+
     }
 
     public function createCommentNotification($notifiyingObject){

@@ -38,13 +38,13 @@
     <div class="col">
         @if(Route::currentRouteName()=="notifications")
             @if(auth()->user()->account->is_admin)
-                <form method="GET" action={{ route('admin.notifications') }} }}>
+                <form method="GET" action={{ route('admin.notifications') }}>
                     @csrf
                     <input type="submit" value="Admin Notifications" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
                 </form>
             @endif
         @else
-            <form method="GET" action={{ route("notifications") }} }}>
+            <form method="GET" action={{ route("notifications") }}>
                 @csrf
                 <input type="submit" value="Notifications" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
             </form>
