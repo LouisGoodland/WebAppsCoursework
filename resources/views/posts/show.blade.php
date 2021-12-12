@@ -60,12 +60,14 @@
             <div class="row">
                 <div class="col">
                     @if(auth()->user()->account->id != $post->account_id)
-                        <button @click="addLike" class="btn btn-success position-relative top-50 start-50 translate-middle">Like</button>
+                        <button @click="addLike" 
+                        class="btn btn-success position-relative top-50 start-50 translate-middle">Like</button>
                     @endif
                 </div>
                 <div class="col">
                     @if(auth()->user()->account->id != $post->account_id)
-                        <button @click="addDislike" class="btn btn-danger position-relative top-50 start-50 translate-middle">Dislike</button>
+                        <button @click="addDislike" 
+                        class="btn btn-danger position-relative top-50 start-50 translate-middle">Dislike</button>
                     @endif
                 </div>
             </div>
@@ -73,11 +75,24 @@
     </div>
 
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
+    <div class="row" id="comments">
+        <div class="row">
+            <div class="row">
+                <input type="text" id="input" v-model="newCommentContent"
+                 name="content" class="position-relative top-50 start-50 translate-middle">
+            </div>
+            <div class="row">
+                <button @click="addComment">Submit!</button>
+            </div>
+        </div>
+        <div v-for="comment in comments" class="row border border-dark bg-secondary bg-opacity-10">
+            @{{comment}}
+        </div>
+    </div>
+
+
+    
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -105,6 +120,7 @@
                     axios.post("{{ route('api.specific.post.dislike', ['post' => $post]) }}",
                     {})
                     .then(response => {
+                        console.log(response);
                         this.dislikes = response.data
                     })
                     .catch(response => {
@@ -115,6 +131,7 @@
             mounted() {
                 axios.get("{{ route('api.specific.post', ['post' => $post]) }}")
                 .then( response => {
+                    console.log(response);
                     this.views = response.data[0]
                     this.likes = response.data[1]
                     this.dislikes = response.data[2]
@@ -126,6 +143,26 @@
         })
     </script>
     
+    <script>
+        var app = new Vue({
+            el: "#comments",
+            data: {
+                comments: [],
+                usernames: [],
+                newCommentContent: "",
+            },
+            
+            mounted() {
+                axios.get("{{ route('api.specific.post.comments', ['post' => $post]) }}")
+                .then( response => {
+                    this.comments = response.data[0]
+                })
+                .catch(response => {
+                    console.log(response);
+                })
+            },
+        })
+    </script>
 
     
 

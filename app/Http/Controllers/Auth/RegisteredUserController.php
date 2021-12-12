@@ -54,8 +54,6 @@ class RegisteredUserController extends Controller
         $a->user_id = $user->id;
         $a->save();
 
-        //Here I also add my own code to make a new client 
-
         event(new Registered($user));
 
         Auth::login($user);
