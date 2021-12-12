@@ -1,16 +1,13 @@
 @extends('layouts.posts')
 
 @section('title')
-    Edit post
+    Edit comment
 @endsection
 
 @section('content')
 
     <form method="POST" action={{ route('update.post', ['post' => $post]) }} enctype="multipart/form-data">
         @csrf
-        <input type="file" name="image" class="position-relative top-50 start-50 translate-middle">
-        <br>
-        <br>
         <br>
         <input type="text" name="content" class="position-relative top-50 start-50 translate-middle"
         value={{old('content')}}>

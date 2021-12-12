@@ -73,21 +73,25 @@
             </div>
         </div>
     </div>
-
-
-
+    <br>
+    <br>
     <div class="row" id="comments">
         <div class="row">
             <div class="row">
                 <input type="text" id="input" v-model="content"
-                 name="content" class="position-relative top-50 start-50 translate-middle">
+                 name="content" class="position-relative top-50 start-50 translate-middle border border-dark">
             </div>
             <div class="row">
                 <button @click="addComment">Submit!</button>
             </div>
         </div>
         <div v-for="comment in comments" class="row border border-dark bg-secondary bg-opacity-10">
-            @{{comment}}
+
+            <p class="text-center">@{{comment.account.username}} Commented:</p>
+            <p class="text-center">@{{comment.content}}</p>
+            
+            
+
         </div>
     </div>
 

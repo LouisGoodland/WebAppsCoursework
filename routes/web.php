@@ -71,6 +71,14 @@ Route::post('/edit_post/{post}/update', [PostController::class, 'update'])
 Route::post('/edit_post/{post}/delete', [PostController::class, 'destroy'])
 ->name("destroy.post")->middleware('auth');
 
+//for editing a comment
+Route::get('/edit_comment/{comment}', [CommentController::class, 'edit'])
+->name("edit.comment")->middleware('auth');
+Route::post('/edit_comment/{comment}/update', [CommentController::class, 'update'])
+->name("update.comment")->middleware('auth');
+Route::post('/edit_comment/{comment}/delete', [CommentController::class, 'destroy'])
+->name("destroy.commentt")->middleware('auth');
+
 //for adding and deleting friends
 Route::post('/accounts/{account}/adding_friend', [FriendshipController::class, 'create'])
 ->name("add.friend")->middleware('auth');

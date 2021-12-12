@@ -35,6 +35,22 @@
         </button>
     </div>
 
+    <div class="col">
+        @if(Route::currentRouteName()=="notifications")
+            @if(auth()->user()->account->is_admin)
+                <form method="GET" action={{ route('admin.notifications') }} }}>
+                    @csrf
+                    <input type="submit" value="Admin Notifications" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
+                </form>
+            @endif
+        @else
+            <form method="GET" action={{ route("notifications") }} }}>
+                @csrf
+                <input type="submit" value="Notifications" class="btn btn-dark btn-lg w-100 p-2 border border-dark">
+            </form>
+        @endif
+    </div>
+
 @endsection
 
     <h3 class="text-center">Posts:</h3>

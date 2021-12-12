@@ -13,47 +13,6 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, Post $post)
-    {
-        
-        $verified_data = $request->validate([
-            'content' => 'required',
-        ]);
-
-        $a = new Comment;
-        $a->account_id = auth()->user()->account->id;
-        $a->post_id = $post->id;
-        $a->content = $request['content'];
-
-        $a->save();
-        return $a;
-    }
 
     /**
      * Display the specified resource.
@@ -63,7 +22,8 @@ class CommentController extends Controller
      */
     public function api_show(Post $post)
     {
-        $comments = Comment::all()->where('post_id', $post->id);
+        $comments = Comment::with('Account')->where('post_id', $post->id)
+        ->get()->reverse();
         return $comments;
 
     }
@@ -83,7 +43,8 @@ class CommentController extends Controller
 
         Notification::factory()->createCommentNotification($a);
         
-        $comments = Comment::all()->where('post_id', $post->id);
+        $comments = Comment::with('Account')->where('post_id', $post->id)
+        ->get()->reverse();
         return $comments;
     }
 
@@ -93,9 +54,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comment $comment)
     {
-        //
+        return view('comments.edit', ['comment' => $comment]);
     }
 
     /**
