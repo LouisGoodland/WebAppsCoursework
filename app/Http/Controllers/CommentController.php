@@ -60,9 +60,11 @@ class CommentController extends Controller
      */
     public function api_show(Post $post)
     {
-        $comments = Comment::where('post_id', $post->id);
-
-        return [$comments->pluck("content")];
+        //dd("here");
+        //$comments = Comment::all()->where('post_id', $post->id);
+        //return $comments->count();
+        $refreshed_post = Post::where('id', $post->id)->first();
+        return [$refreshed_post->views, $refreshed_post->likes, $refreshed_post->dislikes];
     }
 
     public function api_store(Post $post, Request $request)
