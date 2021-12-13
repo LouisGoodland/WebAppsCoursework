@@ -77,7 +77,7 @@ Route::get('/edit_comment/{comment}', [CommentController::class, 'edit'])
 Route::post('/edit_comment/{comment}/update', [CommentController::class, 'update'])
 ->name("update.comment")->middleware('auth');
 Route::post('/edit_comment/{comment}/delete', [CommentController::class, 'destroy'])
-->name("destroy.commentt")->middleware('auth');
+->name("destroy.comment")->middleware('auth');
 
 //for adding and deleting friends
 Route::post('/accounts/{account}/adding_friend', [FriendshipController::class, 'create'])

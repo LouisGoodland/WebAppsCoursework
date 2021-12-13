@@ -90,8 +90,12 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        if(auth()->user()->account->id == $comment->account_id)
+        {
+            $comment->delete();
+        }
+        return redirect(route("specific.post", ['post' => $comment->post_id]));
     }
 }

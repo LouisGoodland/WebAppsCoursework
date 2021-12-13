@@ -27,6 +27,8 @@ class UserTableSeeder extends Seeder
             $a = new Account;
             $a->username = $produced_user->name;
             $a->user_id = $produced_user->id;
+            $a->first_name = $this->faker->firstname();
+            $a->last_name = $this->faker->lastname();
             $a->save();
             
             //increase the amount produced count

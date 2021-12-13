@@ -93,6 +93,7 @@
 
             <div v-if="comment.account_id == user_id">
                 <button @click="editComment(comment)">Edit</button>
+
             </div>
             
 
@@ -177,7 +178,7 @@
                 editComment(comment){
                     console.log(comment['id']);
                     window.location = '/edit_comment/' + comment['id'];
-                }
+                },
             },
             mounted() {
                 axios.get("{{ route('api.specific.post.comments', ['post' => $post]) }}")
