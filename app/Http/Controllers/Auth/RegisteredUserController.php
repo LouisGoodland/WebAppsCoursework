@@ -52,6 +52,7 @@ class RegisteredUserController extends Controller
         $a = new Account;
         $a->username = $user->name;
         $a->user_id = $user->id;
+        $a->image_path = "A4qTBrNH841AsYsTNFX8rTUnP88lEWGL37pvgvFp.png";
         $a->save();
 
         event(new Registered($user));

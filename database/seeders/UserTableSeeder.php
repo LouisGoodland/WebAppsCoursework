@@ -23,13 +23,8 @@ class UserTableSeeder extends Seeder
         while($production_count < $users_to_produce){
             //Make a comment and it's notification
             $produced_user = User::factory()->create();
-
-            $a = new Account;
-            $a->username = $produced_user->name;
-            $a->user_id = $produced_user->id;
-            $a->first_name = $this->faker->firstname();
-            $a->last_name = $this->faker->lastname();
-            $a->save();
+            //makes the account
+            Account::factory()->makeAccount($produced_user);
             
             //increase the amount produced count
             $production_count = $production_count + 1;

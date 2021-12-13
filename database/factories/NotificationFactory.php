@@ -59,9 +59,6 @@ class NotificationFactory extends Factory
             Account::where('id', $notified_account_id)->first()->username." 
             caused by: ".get_class($notifiyingObject). " from ".
             Account::where('id', $notifiyingObject->account_id)->first()->username]);
-
-            //$notify = Account::where('id', $notified_account_id)->first();
-            //$notify->user->notify(new NewReplyAdded($n));
         }
 
 
