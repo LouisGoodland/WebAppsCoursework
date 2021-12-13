@@ -94,6 +94,18 @@ class CommentController extends Controller
     {
         if(auth()->user()->account->id == $comment->account_id)
         {
+
+            $notification = Notification::get()
+            ->where('notifiable_id', $comment->id)
+            ->where('notifiable_type', get_class($comment))
+            ->first();
+
+            if($notification != null)
+            {
+                $notification->delete();
+            }
+
+
             $comment->delete();
         }
         return redirect(route("specific.post", ['post' => $comment->post_id]));

@@ -284,11 +284,12 @@ class PostController extends Controller
         //deletes the post if its the users post or they are an admin
         if(auth()->user()->account->id == $post->account_id)
         {
+            app('App\Http\Controllers\PostController')->deletePostNotifications($post);
             $post->delete();
         }
         elseif(auth()->user()->account->is_admin)
         {
-            
+            app('App\Http\Controllers\PostController')->deletePostNotifications($post);
             //produce an additional notification for the user
             $n = new Notification;
             $n->notifiable_id = $post->id;
@@ -301,5 +302,27 @@ class PostController extends Controller
             
         }
         return redirect(route('discover.posts'));
+    }
+
+    public function deletePostNotifications(Post $post)
+    {
+        //deletes all post notifications
+        Notification::where('notifiable_id', $post->id)
+        ->where('notifiable_type', get_class($post))
+        ->delete();
+
+        //deletes all comment notifications on said post
+        $comments = Comment::get()
+        ->where('post_id', $post->id);
+        Notification::whereIn('notifiable_id', $comments->pluck('id'))
+        ->where('notifiable_type', get_class($comments))
+        ->delete();
+
+        //deletes all user post interaction notifications on said post
+        $interactions = AccountPostInteraction::get()
+        ->where('post_id', $post->id);
+        Notification::whereIn('notifiable_id', $interactions->pluck('id'))
+        ->where('notifiable_type', get_class($interactions))
+        ->delete();
     }
 }

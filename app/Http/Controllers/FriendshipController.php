@@ -156,6 +156,17 @@ class FriendshipController extends Controller
         if($friendship_to_destroy_search != null)
         {
             $friendship_to_destroy = Friendship::findOrFail($friendship_to_destroy_search->id);
+
+            $notification = Notification::get()
+            ->where('notifiable_id', $friendship_to_destroy->id)
+            ->where('notifiable_type', get_class($friendship_to_destroy))
+            ->first();
+
+            if($notification != null)
+            {
+                $notification->delete();
+            }
+
             $friendship_to_destroy->delete();
         }
         else 
