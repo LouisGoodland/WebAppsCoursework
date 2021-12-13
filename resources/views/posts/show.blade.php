@@ -89,7 +89,11 @@
 
             <p class="text-center">@{{comment.account.username}} Commented:</p>
             <p class="text-center">@{{comment.content}}</p>
-            
+
+
+            <div v-if="comment.account_id == user_id">
+                <button @click="editComment(comment)">Edit</button>
+            </div>
             
 
         </div>
@@ -154,6 +158,7 @@
             data: {
                 comments: [],
                 content: "",
+                user_id: 0,
             },
             methods: {
                 addComment: function(){
@@ -169,12 +174,17 @@
                         console.log(response);
                     })
                 },
+                editComment(comment){
+                    console.log(comment['id']);
+                    window.location = '/edit_comment/' + comment['id'];
+                }
             },
             mounted() {
                 axios.get("{{ route('api.specific.post.comments', ['post' => $post]) }}")
                 .then( response => {
                     console.log(response);
-                    this.comments = response.data
+                    this.comments = response.data[0]
+                    this.user_id = response.data[1]
                 })
                 .catch(response => {
                     console.log(response);

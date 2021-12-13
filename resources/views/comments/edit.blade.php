@@ -6,10 +6,11 @@
 
 @section('content')
 
-    <form method="POST" action={{ route('update.post', ['post' => $post]) }} enctype="multipart/form-data">
+    <form method="POST" action={{ route('update.comment', ['comment' => $comment]) }} enctype="multipart/form-data">
         @csrf
         <br>
-        <input type="text" name="content" class="position-relative top-50 start-50 translate-middle"
+        <p class="text-center">New Comment here:</p>
+        <input type="text" name="content" class="position-relative top-50 start-50 translate-middle border border-2"
         value={{old('content')}}>
         <br>
         <br>

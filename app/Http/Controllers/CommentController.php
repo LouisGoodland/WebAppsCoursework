@@ -24,7 +24,7 @@ class CommentController extends Controller
     {
         $comments = Comment::with('Account')->where('post_id', $post->id)
         ->get()->reverse();
-        return $comments;
+        return [$comments, auth()->user()->account->id];
 
     }
 
@@ -56,7 +56,10 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        return view('comments.edit', ['comment' => $comment]);
+        if(auth()->user()->account->id == $comment->account_id)
+        {
+            return view('comments.edit', ['comment' => $comment]);
+        }
     }
 
     /**
@@ -66,9 +69,19 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
-        //
+
+        if(auth()->user()->account->id == $comment->account_id)
+        {
+            $validated_comment_change = $request->validate([
+                'content' => 'required'
+            ]);
+    
+            $comment->content = $validated_comment_change['content'];
+            $comment->save();
+        }
+        return redirect(route("specific.post", ['post' => $comment->post_id]));
     }
 
     /**
