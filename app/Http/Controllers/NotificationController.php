@@ -22,17 +22,17 @@ class NotificationController extends Controller
     {
         if(auth()->user()->account->is_admin)
         {
-            $post_notifications = Notification::all()->
-            where('notifiable_type', "App\Models\Post")->reverse();
-    
-            $friendship_notifications = Notification::all()->
-            where('notifiable_type', "App\Models\Friendship")->reverse();
-    
-            $comment_notifications = Notification::all()->
-            where('notifiable_type', "App\Models\Comment")->reverse();
-    
-            $interaction_notifications = Notification::all()->
-            where('notifiable_type', "App\Models\AccountPostInteraction")->reverse();
+            $post_notifications = 
+            app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\Post", 0);
+
+            $friendship_notifications = 
+            app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\Friendship", 0);
+
+            $comment_notifications = 
+            app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\Comment", 0);
+
+            $interaction_notifications = 
+            app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\AccountPostInteraction", 0);
             
             return view('notifications.index', 
             ['post_notifications' => $post_notifications,
@@ -47,6 +47,31 @@ class NotificationController extends Controller
         }
     }
 
+    public function getNotifications($notifiable_type, $reading)
+    {
+
+        $notifications = Notification::all()->
+        where('notifiable_type', $notifiable_type)->reverse()
+        ->where('has_been_read', 0);
+
+        if($reading)
+        {
+            $notifications = $notifications->where('account_id', auth()->user()->account->id);
+            app('App\Http\Controllers\NotificationController')->read($notifications);
+        }
+        
+        return $notifications;
+
+    }
+
+    public function read($notifications)
+    {
+        foreach($notifications as $notification){
+            $notification->has_been_read = 1;
+            $notification->save();
+        }
+    }
+
 
     /**
      * Display the specified resource.
@@ -56,21 +81,18 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        $post_notifications = Notification::all()->
-        where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\Post")->reverse();
 
-        $friendship_notifications = Notification::all()->
-        where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\Friendship")->reverse();
+        $post_notifications = 
+        app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\Post", 1);
 
-        $comment_notifications = Notification::all()->
-        where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\Comment")->reverse();
+        $friendship_notifications = 
+        app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\Friendship", 1);
 
-        $interaction_notifications = Notification::all()->
-        where('account_id', auth()->user()->account->id)
-        ->where('notifiable_type', "App\Models\AccountPostInteraction")->reverse();
+        $comment_notifications = 
+        app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\Comment", 1);
+
+        $interaction_notifications = 
+        app('App\Http\Controllers\NotificationController')-> getNotifications("App\Models\AccountPostInteraction", 1);
         
         return view('notifications.index', 
         ['post_notifications' => $post_notifications,

@@ -95,10 +95,11 @@
                 <a href= {{ route("notifications") }}>
                     <input type="submit" class="btn btn-light btn-lg w-100 p-2"
                     value="Notifications"> 
-                        <span class="position-relative top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{auth()->user()->account->notifications->count()}}
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
+                        @if(auth()->user()->account->notifications->where("has_been_read", 0)->count() > 0)
+                            <span class="position-relative top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{auth()->user()->account->notifications->where("has_been_read", 0)->count()}}
+                            </span>
+                        @endif
                     </input>
                 </a>
             @endif
