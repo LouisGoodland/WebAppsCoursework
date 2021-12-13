@@ -11,7 +11,7 @@
         <br>
         <br>
         <br>
-        <input type="text" name="content" class="position-relative top-50 start-50 translate-middle">
+        <input type="text" name="content" class="position-relative top-50 start-50 translate-middle border border-2">
         <br>
         <br>
         <input type="submit" value="Submit" class="position-relative top-50 start-50 translate-middle">
