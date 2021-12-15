@@ -7,6 +7,8 @@ use App\Models\Account;
 use App\Models\Post;
 use App\Models\Friendship;
 use App\Models\AccountPostInteraction;
+use App\Models\Notification;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -255,6 +257,72 @@ class AccountController extends Controller
     {
         if(auth()->user()->account->is_admin)
         {
+            //delete all notifications for the user
+            Notification::where('account_id', $account->id)->delete();
+            
+            //needs to do the delete all post
+            $posts = Post::where('account_id', $account->id);
+            foreach($posts as $post)
+            {
+                app('App\Http\Controllers\PostController')->deletePostNotifications($post);
+            }
+
+            //needs to do the delete all comments
+            $comments = Comment::where('account_id', $account->id);
+            foreach($comments as $comment)
+            {
+                $notif = Notification::get()
+                ->where('notifiable_id', $comment->id)
+                ->where('notifiable_type', get_class($comment))
+                ->first();
+                
+                if($notif != null){
+                    $notif->delete();
+                }
+            }
+
+            //deleting friendship requests from the deleted acc
+            $friend_sendings = Friendship::all()
+            ->where('account_id_sender', $account->id);
+            foreach($friend_sendings as $sending)
+            {
+                $notif = Notification::where('notifiable_id', $sending->id)
+                ->where('notifiable_type', get_class($sending))
+                ->first();
+
+                if($notif != null){
+                    $notif->delete();
+                }
+            }
+
+            //deleting friendship recieving on the deleted acc
+            $friendship_recieving = Friendship::all()
+            ->where('account_id_reciever', $account->id);
+            foreach($friendship_recieving as $sending)
+            {
+                $notif = Notification::where('notifiable_id', $sending->id)
+                ->where('notifiable_type', get_class($sending))
+                ->first();
+
+                if($notif != null){
+                    $notif->delete();
+                }
+            }
+
+            //interactions
+            $interactions = AccountPostInteraction::all()
+            ->where('accound_id', $account->id);
+            foreach($interactions as $interaction)
+            {
+                $notif = Notification::where('notifiable_id', $interaction->id)
+                ->where('notifiable_type', get_class($interaction))
+                ->first();
+
+                if($notif != null){
+                    $notif->delete();
+                }
+            }
+
             $account->user->delete();
         }
         return redirect(route('discover.accounts'));
